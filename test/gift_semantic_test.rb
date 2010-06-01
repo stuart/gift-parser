@@ -4,13 +4,11 @@
 # This only tests that the input is parsed.
 # so far does not test output.
 
-require 'rubygems'
-require 'treetop'
 require 'pp'
 require 'test/unit'
 require 'test/unit/ui/console/testrunner'
 
-system "tt #{File.expand_path('../../gift.treetop',  __FILE__)}"
+system "tt #{File.expand_path('../../gift_parser.treetop',  __FILE__)}"
 require File.expand_path('../../gift',  __FILE__)
 require File.expand_path('../GIFT-examples.rb', __FILE__)
 
@@ -35,19 +33,19 @@ class GiftSemanticTest < Test::Unit::TestCase
   
   def test_description_question
     q = @parser.parse("This is a description.\n\n").questions[0]
-    assert q.type == "description"
+    assert q.class == Gift::DescriptionQuestion
     assert q.text == "This is a description."
   end
 
   def test_essay_question
     q = @parser.parse("Write an essay on the toic of your choice{ }\n\n").questions[0]
-    assert q.type == "essay"
+    assert q.class == Gift::EssayQuestion
     assert q.text == "Write an essay on the toic of your choice"
   end
   
   def test_true_false_question_true
     q = @parser.parse("Is the sky blue?{T}\n\n").questions[0]
-    assert q.type == "true_false"
+    assert q.class == Gift::TrueFalseQuestion
     assert q.text == "Is the sky blue?"
     assert q.answers == [{:value => true, :correct => true, :feedback => nil}]
   end
@@ -66,7 +64,7 @@ class GiftSemanticTest < Test::Unit::TestCase
   
   def test_multiple_choice_question
     q = @parser.parse("What color is the sky?{=blue ~green ~red}\n\n").questions[0]
-    assert q.type == "multiple_choice"
+    assert q.class == Gift::MultipleChoiceQuestion
     assert q.text == "What color is the sky?"
     assert q.answers ==  [{:value => "blue", :correct => true, :feedback => nil}, 
                          {:value => "green", :correct => false, :feedback => nil},
@@ -91,7 +89,7 @@ class GiftSemanticTest < Test::Unit::TestCase
   
   def test_short_answer_question
     q = @parser.parse("Who's buried in Grant's tomb?{=Grant =Ulysses S. Grant =Ulysses Grant}\n\n").questions[0]
-    assert q.type == "short_answer"
+    assert q.class == Gift::ShortAnswerQuestion
     assert q.text == "Who's buried in Grant's tomb?"
     assert q.answers == [{:feedback => nil, :value => "Grant", :correct => true}, 
                          {:feedback => nil, :value => "Ulysses S. Grant", :correct => true}, 
@@ -107,7 +105,7 @@ class GiftSemanticTest < Test::Unit::TestCase
   
   def test_numeric_question
     q = @parser.parse("What is 3 + 4?{#7}\n\n").questions[0]
-    assert q.type == "numeric"
+    assert q.class == Gift::NumericQuestion
     assert q.answers == [{:maximum => 7.0, :minimum => 7.0}]
   end
   
@@ -122,7 +120,10 @@ class GiftSemanticTest < Test::Unit::TestCase
   end
   
   def test_numeric_multiple_answers
-    
+    q = @parser.parse("What is the value of PI?{#3.1415 =%50%3.1 =%25%3 }\n\n").questions[0]
+    assert q.answers == [{:maximum => 3.1415, :minimum => 3.1415}, 
+                         {:maximum => 3.1, :minimum => 3.1},
+                         {:maximum => 3.0, :minimum => 3.0}]
   end
   
 end

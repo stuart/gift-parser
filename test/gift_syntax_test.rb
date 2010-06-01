@@ -4,13 +4,11 @@
 # This only tests that the input is parsed.
 # so far does not test output.
 
-require 'rubygems'
-require 'treetop'
 require 'pp'
 require 'test/unit'
 require 'test/unit/ui/console/testrunner'
 
-system "tt #{File.expand_path('../../gift.treetop',  __FILE__)}"
+system "tt #{File.expand_path('../../gift_parser.treetop',  __FILE__)}"
 require File.expand_path('../../gift',  __FILE__)
 require File.expand_path('../GIFT-examples.rb', __FILE__)
 
@@ -87,8 +85,12 @@ EOS
   
   def test_numeric_range_question
     assert_can_parse("::Q5:: What is a number from 1 to 5? {#1..5}")
+  end 
+  
+  def test_numeric_negative_number
+    assert_can_parse("What is 6 - 10?{#-4}")
   end
- 
+   
   def test_short_answer
     assert_can_parse("Who's buried in Grant's tomb?{=Grant =Ulysses S. Grant =Ulysses Grant}")
   end

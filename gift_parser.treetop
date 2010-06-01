@@ -4,8 +4,9 @@ grammar Gift
 
   rule gift
    (question blank_line)+
-
    {
+    require File.expand_path('../gift.rb', __FILE__)
+    
     def questions
       elements.map{|e| e.question}
     end
@@ -15,91 +16,55 @@ grammar Gift
 
   rule question
      (essay_question / true_false_question / fill_in_question / short_answer_question / mutiple_choice_question / numeric_question /  match_question / description_question)
-    { def text
+    { 
+      def text
         question_text.text_value
-     end }
+     end 
+    }
   end
   
   rule essay_question
     comment? title? space? question_text '{' nbsp? '}'
-    {
-      def type
-        "essay"
-      end
-    }
+    <EssayQuestion>
   end
   
   rule true_false_question
-    comment? title? space? question_text '{' space? (true_answer / false_answer) space? '}'
-    {
-      def answers
-        [elements[6].answer]
-      end
-      
-      def type
-        "true_false"
-      end
-    }
+    comment? title? space? question_text '{' space? (true_answer / false_answer) space? '}'  
+      <TrueFalseQuestion>
   end
   
   rule short_answer_question
     comment? title? space? question_text '{' space? (right_answer)+ space? '}'
-    {
-      def answers
-        elements[6].elements.map{ |e| e.answer}
-      end
-      
-      def type
-        "short_answer"
-      end
-    }
+    <ShortAnswerQuestion>
   end
   
   rule mutiple_choice_question
     comment? title? space? question_text '{' space? (wrong_answer / right_answer)+ space? '}' 
-    {
-      def answers
-        elements[6].elements.map{|e| e.answer}
-      end
-      
-      def type
-        "multiple_choice"
-      end
-    }
+    <MultipleChoiceQuestion>
   end
   
   rule numeric_question
     comment? title? space? question_text '{#' space? (numeric_answer)+ '}'
-    {
-      def type
-        "numeric"
-      end
-      
-      def answers
-        elements[6].elements.map{|e| e.answer}
-      end
-    }
+    <NumericQuestion>
   end
   
   rule match_question
     comment? title? space? question_text '{' match_answer+ '}'
+    <MatchQuestion>
   end
   
   rule fill_in_question
     comment? title? space? question_text '{'  space? (wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+
+    <FillInQuestion>
   end
   
   rule description_question
     comment? title? space? question_text
-    { 
-      def type
-        "description"
-      end
-    }
+    <DescriptionQuestion>
   end
 
   rule number
-   [\d] ("." [\d])?
+   [+-]? [\d]+ (!".." "." [\d]*)?
   end
   
   rule weight
@@ -222,7 +187,4 @@ grammar Gift
    line_break nbsp? line_break space?
   end
   
-  rule EOF
-    !.
-  end
 end
