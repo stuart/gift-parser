@@ -1,0 +1,228 @@
+# Gift format treetop parser
+
+grammar Gift
+
+  rule gift
+   (question blank_line)+
+
+   {
+    def questions
+      elements.map{|e| e.question}
+    end
+   }
+   
+  end
+
+  rule question
+     (essay_question / true_false_question / fill_in_question / short_answer_question / mutiple_choice_question / numeric_question /  match_question / description_question)
+    { def text
+        question_text.text_value
+     end }
+  end
+  
+  rule essay_question
+    comment? title? space? question_text '{' nbsp? '}'
+    {
+      def type
+        "essay"
+      end
+    }
+  end
+  
+  rule true_false_question
+    comment? title? space? question_text '{' space? (true_answer / false_answer) space? '}'
+    {
+      def answers
+        [elements[6].answer]
+      end
+      
+      def type
+        "true_false"
+      end
+    }
+  end
+  
+  rule short_answer_question
+    comment? title? space? question_text '{' space? (right_answer)+ space? '}'
+    {
+      def answers
+        elements[6].elements.map{ |e| e.answer}
+      end
+      
+      def type
+        "short_answer"
+      end
+    }
+  end
+  
+  rule mutiple_choice_question
+    comment? title? space? question_text '{' space? (wrong_answer / right_answer)+ space? '}' 
+    {
+      def answers
+        elements[6].elements.map{|e| e.answer}
+      end
+      
+      def type
+        "multiple_choice"
+      end
+    }
+  end
+  
+  rule numeric_question
+    comment? title? space? question_text '{#' space? (numeric_answer)+ '}'
+    {
+      def type
+        "numeric"
+      end
+      
+      def answers
+        elements[6].elements.map{|e| e.answer}
+      end
+    }
+  end
+  
+  rule match_question
+    comment? title? space? question_text '{' match_answer+ '}'
+  end
+  
+  rule fill_in_question
+    comment? title? space? question_text '{'  space? (wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+
+  end
+  
+  rule description_question
+    comment? title? space? question_text
+    { 
+      def type
+        "description"
+      end
+    }
+  end
+
+  rule number
+   [\d] ("." [\d])?
+  end
+  
+  rule weight
+    "%" [+-]? [1]? [\d]? [\d] "."? [\d]? [\d]? "%"
+  end
+  
+  rule numeric_answer
+   (range / numeric_with_tolerance) space? feedback? space?
+   {
+     def answer
+      {:maximum => elements[0].maximum, :minimum => elements[0].minimum}
+     end
+   }
+  end
+
+  rule numeric_with_tolerance
+    "="? weight? number (':' number)?
+    {
+      def maximum
+        ans = Float(elements[2].text_value)
+        ans += Float(elements[3].elements[1].text_value) unless elements[3].text_value.blank?
+        return ans
+      end
+      
+      def minimum
+        ans = Float(elements[2].text_value)
+        ans -= Float(elements[3].elements[1].text_value) unless elements[3].text_value.blank?
+        return ans
+      end
+      
+    }
+  end
+
+  rule range
+   number '..' number
+   {
+     def maximum
+       Float(elements[0].text_value)
+     end
+     
+     def minimum
+       Float(elements[2].text_value)
+     end
+   }
+  end
+
+  rule wrong_answer
+   "~" weight? (![=~}#] (("\\" [=~{}#:])/ .))* space? feedback? 
+   {
+    def answer
+      ans = { :value => elements[2].text_value.rstrip, :correct => false, :feedback => elements[4].text_value.rstrip[1..-1] }
+      ans[:weight] = Float(elements[1].text_value[1..-2]) if elements[1].text_value != ""
+      return ans
+    end
+   }
+  end
+
+  rule right_answer
+   "=" weight? (![=~}#] (("\\" [=~{}#:])/ .))* space? feedback?
+   {
+    def answer
+      ans = { :value => elements[2].text_value.rstrip, :correct => true, :feedback => elements[4].text_value.rstrip[1..-1]  }
+      ans[:weight] = Float(elements[1].text_value[1..-2]) if elements[1].text_value != ""
+      return ans
+    end
+   }
+  end
+  
+  rule match_answer
+    "=" (!"->" .)* "->" (![=~}#] (("\\" [=~{}#:])/ .))* space?
+  end
+
+  rule true_answer
+    ("TRUE" / "T") space? feedback?
+    {
+      def answer
+        {:value => true, :correct => true, :feedback => elements[2].text_value.rstrip[1..-1]}
+      end
+    }
+  end 
+
+  rule false_answer
+   ("FALSE" / "F") space? feedback?
+   {
+     def answer
+       {:value => false, :correct => true, :feedback => elements[2].text_value.rstrip[1..-1]}
+     end
+   }
+  end
+
+  rule comment
+    "//" (!line_break .)* line_break comment?
+  end
+  
+  rule title
+    '::' (!"::" (("\\" [=~{}#:])/ .))*  '::' line_break?
+  end
+
+  rule question_text
+    (!"{" !blank_line (("\\" [=~{}#:])/ .))*
+  end
+
+  rule feedback
+    "#" (![=~}#] (("\\" [=~{}#:])/ .))*
+  end
+  
+  rule line_break
+    "\r\n" / "\n"
+  end
+  
+  rule nbsp
+    (" " / "\t")+
+  end
+  
+  rule space
+    (" " / "\t" / "\r" / "\n")+
+  end
+  
+  rule blank_line
+   line_break nbsp? line_break space?
+  end
+  
+  rule EOF
+    !.
+  end
+end
