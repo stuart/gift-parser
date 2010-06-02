@@ -14,12 +14,11 @@ module Gift
           # Add blank line to make sure we can parse.
           @root = parser.parse(io_or_string + "\n\n")
         when IO
-          @root = parser.parse(io_or_string.read)
-          if @root.nil? 
-            raise parser.failure_reason.inspect
-          end
+          @root = parser.parse(io_or_string.read + "\n\n")
       end
-    end 
+      
+      raise ArgumentError, "Cannot parse GIFT input.\nReason:\n#{parser.failure_reason.inspect}" if @root.nil?
+    end
     
     def questions
       @root.questions
@@ -41,6 +40,15 @@ module Gift
     # The question text.
     def text
       question_text.text_value.strip
+    end
+    
+    def title
+      t = elements[1].text_value.gsub("::", "")
+      t.blank? ? self.text : t
+    end
+    
+    def comment
+      elements[0].text_value.gsub("//", "").rstrip
     end 
     
   end

@@ -142,6 +142,22 @@ class GiftSemanticTest < Test::Unit::TestCase
     assert q.text == "There were %% little pigs."
     assert q.answers == [{:value => 'three', :correct => true, :feedback => nil}]
   end
+  
+  def test_title
+    q = @parser.parse("::Essay One:: Write an essay on the toic of your choice{ }\n\n").questions[0]
+    assert q.title == "Essay One"
+  end 
+  
+  def test_title_from_question
+    q = @parser.parse("Write an essay on the toic of your choice{ }\n\n").questions[0]
+    assert q.title == q.text
+  end
+  
+  def test_comment
+    q = @parser.parse("//Here's an easy one\nWrite an essay on the toic of your choice{ }\n\n").questions[0]
+    assert q.comment == "Here's an easy one"
+  end
+ 
 end
 
 Test::Unit::UI::Console::TestRunner.run(GiftSemanticTest)
