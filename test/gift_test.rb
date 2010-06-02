@@ -25,6 +25,9 @@ class GiftTest < Test::Unit::TestCase
     end
   end
   
+ def test_checking_answers
+ end
+ 
 end 
 
 Test::Unit::UI::Console::TestRunner.run(GiftTest)   

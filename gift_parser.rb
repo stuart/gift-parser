@@ -3,6 +3,7 @@
 
 # Gift format treetop parser
 
+#:nodoc: all
 module Gift
   include Treetop::Runtime
 
@@ -12,18 +13,24 @@ module Gift
 
   module Gift0
     def question
-      elements[0]
+      elements[1]
     end
 
     def blank_line
-      elements[1]
+      elements[2]
     end
   end
 
   module Gift1
     
+    @current_category
+    
     def questions
       elements.map{|e| e.question}
+    end
+    
+    def commands
+      elements.map{|e| e.elements[0].elements[0].command_text}
     end
   end
 
@@ -38,11 +45,24 @@ module Gift
     s0, i0 = [], index
     loop do
       i1, s1 = index, []
-      r2 = _nt_question
+      s2, i2 = [], index
+      loop do
+        r3 = _nt_command
+        if r3
+          s2 << r3
+        else
+          break
+        end
+      end
+      r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
       s1 << r2
       if r2
-        r3 = _nt_blank_line
-        s1 << r3
+        r4 = _nt_question
+        s1 << r4
+        if r4
+          r5 = _nt_blank_line
+          s1 << r5
+        end
       end
       if s1.last
         r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
@@ -66,6 +86,88 @@ module Gift
     end
 
     node_cache[:gift][start_index] = r0
+
+    r0
+  end
+
+  module Command0
+  end
+
+  module Command1
+    def line_break
+      elements[2]
+    end
+  end
+
+  def _nt_command
+    start_index = index
+    if node_cache[:command].has_key?(index)
+      cached = node_cache[:command][index]
+      @index = cached.interval.end if cached
+      return cached
+    end
+
+    i0, s0 = index, []
+    if has_terminal?('$', false, index)
+      r1 = instantiate_node(SyntaxNode,input, index...(index + 1))
+      @index += 1
+    else
+      terminal_parse_failure('$')
+      r1 = nil
+    end
+    s0 << r1
+    if r1
+      s2, i2 = [], index
+      loop do
+        i3, s3 = index, []
+        i4 = index
+        r5 = _nt_line_break
+        if r5
+          r4 = nil
+        else
+          @index = i4
+          r4 = instantiate_node(SyntaxNode,input, index...index)
+        end
+        s3 << r4
+        if r4
+          if index < input_length
+            r6 = instantiate_node(SyntaxNode,input, index...(index + 1))
+            @index += 1
+          else
+            terminal_parse_failure("any character")
+            r6 = nil
+          end
+          s3 << r6
+        end
+        if s3.last
+          r3 = instantiate_node(SyntaxNode,input, i3...index, s3)
+          r3.extend(Command0)
+        else
+          @index = i3
+          r3 = nil
+        end
+        if r3
+          s2 << r3
+        else
+          break
+        end
+      end
+      r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
+      s0 << r2
+      if r2
+        r7 = _nt_line_break
+        s0 << r7
+      end
+    end
+    if s0.last
+      r0 = instantiate_node(Command,input, i0...index, s0)
+      r0.extend(Command1)
+    else
+      @index = i0
+      r0 = nil
+    end
+
+    node_cache[:command][start_index] = r0
 
     r0
   end
@@ -219,6 +321,10 @@ module Gift
       elements[3]
     end
 
+    def answer_list
+      elements[6]
+    end
+
   end
 
   def _nt_true_false_question
@@ -329,6 +435,10 @@ module Gift
   module ShortAnswerQuestion0
     def question_text
       elements[3]
+    end
+
+    def answer_list
+      elements[6]
     end
 
   end
@@ -443,6 +553,10 @@ module Gift
   module MutipleChoiceQuestion0
     def question_text
       elements[3]
+    end
+
+    def answer_list
+      elements[6]
     end
 
   end
@@ -571,6 +685,10 @@ module Gift
       elements[3]
     end
 
+    def answer_list
+      elements[6]
+    end
+
   end
 
   def _nt_numeric_question
@@ -674,6 +792,10 @@ module Gift
   module MatchQuestion0
     def question_text
       elements[3]
+    end
+
+    def answer_list
+      elements[6]
     end
 
   end
@@ -785,6 +907,10 @@ module Gift
   module FillInQuestion2
     def question_text
       elements[3]
+    end
+
+    def answer_list
+      elements[6]
     end
 
   end
@@ -1310,11 +1436,15 @@ module Gift
   end
 
   module NumericAnswer0
+    def value
+      elements[0]
+    end
+
   end
 
   module NumericAnswer1
     def answer
-     {:maximum => elements[0].maximum, :minimum => elements[0].minimum}
+     {:maximum => value.maximum, :minimum => value.minimum}
     end
   end
 

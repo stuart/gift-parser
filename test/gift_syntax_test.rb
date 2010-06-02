@@ -234,6 +234,9 @@ EOS
      end                                                
   end
 
+  def test_can_have_commands
+    assert_can_parse("$COMMAND=1\n\nQuestion text{}")
+  end
 end
 
 Test::Unit::UI::Console::TestRunner.run(GiftSyntaxTest)

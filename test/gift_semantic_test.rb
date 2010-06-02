@@ -157,7 +157,17 @@ class GiftSemanticTest < Test::Unit::TestCase
     q = @parser.parse("//Here's an easy one\nWrite an essay on the toic of your choice{ }\n\n").questions[0]
     assert q.comment == "Here's an easy one"
   end
+  
+  def test_command
+    q = @parser.parse("$COMMAND=1\n\nQuestion{}\n\n")
+    assert q.commands == ["COMMAND=1"]
+  end
  
+  def test_category_setting
+    q = @parser.parse("$CATEGORY: food \n\nIs apple a food?{T}\n\n$CATEGORY: drink\n\nIs water drinkable?{T}\n\n" )
+    assert q.questions[0].category == "food"
+    assert q.questions[1].category == "drink"
+  end
 end
 
 Test::Unit::UI::Console::TestRunner.run(GiftSemanticTest)

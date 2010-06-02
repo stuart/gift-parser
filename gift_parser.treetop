@@ -1,53 +1,66 @@
 # Gift format treetop parser
 
+#:nodoc: all
 grammar Gift
 
   rule gift
-   (question blank_line)+
+   (command* question blank_line)+
    {    
+    @current_category
+    
     def questions
       elements.map{|e| e.question}
+    end
+    
+    def commands
+      elements.map{|e| e.elements[0].elements[0].command_text}
     end
    }
    
   end
-
+  
+  rule command
+    '$' (!line_break .)* line_break  
+     <Command>
+  end
+  
   rule question
      (essay_question / true_false_question  /  match_question / fill_in_question / short_answer_question / mutiple_choice_question / numeric_question / description_question)
   end
   
+# Question Types
   rule essay_question
     comment? title? space? question_text '{' nbsp? '}'
     <EssayQuestion>
   end
   
   rule true_false_question
-    comment? title? space? question_text '{' space? (true_answer / false_answer) space? '}'  
+    comment? title? space? question_text '{' space? answer_list:(true_answer / false_answer) space? '}'  
       <TrueFalseQuestion>
   end
   
   rule short_answer_question
-    comment? title? space? question_text '{' space? (right_answer)+ space? '}'
+    comment? title? space? question_text '{' space? answer_list:(right_answer)+ space? '}'
     <ShortAnswerQuestion>
   end
   
   rule mutiple_choice_question
-    comment? title? space? question_text '{' space? (wrong_answer / right_answer)+ space? '}' 
+    comment? title? space? question_text '{' space? answer_list:(wrong_answer / right_answer)+ space? '}' 
     <MultipleChoiceQuestion>
   end
   
   rule numeric_question
-    comment? title? space? question_text '{#' space? (numeric_answer)+ '}'
+    comment? title? space? question_text '{#' space? answer_list:(numeric_answer)+ '}'
     <NumericQuestion>
   end
   
   rule match_question
-    comment? title? space? question_text '{' space? match_answer+ '}'
+    comment? title? space? question_text '{' space? answer_list:(match_answer)+ '}'
     <MatchQuestion>
   end
   
   rule fill_in_question
-    comment? title? space? question_text '{'  space? (wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+
+    comment? title? space? question_text '{'  space? answer_list:(wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+
     <FillInQuestion>
   end
   
@@ -55,6 +68,8 @@ grammar Gift
     comment? title? space? question_text
     <DescriptionQuestion>
   end
+
+# Question Components
 
   rule number
    [+-]? [\d]+ (!".." "." [\d]*)?
@@ -65,10 +80,10 @@ grammar Gift
   end
   
   rule numeric_answer
-   (range / numeric_with_tolerance) space? feedback? space?
+   value:(range / numeric_with_tolerance) space? feedback? space?
    {
      def answer
-      {:maximum => elements[0].maximum, :minimum => elements[0].minimum}
+      {:maximum => value.maximum, :minimum => value.minimum}
      end
    }
   end

@@ -7,6 +7,8 @@ module Gift
     
     attr_accessor :root
     
+    # Create a Gift object form a file IO or string.
+    # 
     def initialize(io_or_string)
       parser = GiftParser.new()
       case io_or_string
@@ -20,6 +22,7 @@ module Gift
       raise ArgumentError, "Cannot parse GIFT input.\nReason:\n#{parser.failure_reason.inspect}" if @root.nil?
     end
     
+    # An array of the questions from the Gift file.
     def questions
       @root.questions
     end
@@ -30,6 +33,8 @@ module Gift
   #
   # This is an abstract class representing question types.
   class Question < Treetop::Runtime::SyntaxNode 
+    
+    attr_accessor :category
     
     # The set of possible answers for this question.
     # Returns a array of hashes with contents depending on the subclass.
@@ -42,14 +47,27 @@ module Gift
       question_text.text_value.strip
     end
     
+    # The question title, defaults to the question text if no title is given.
     def title
       t = elements[1].text_value.gsub("::", "")
       t.blank? ? self.text : t
     end
-    
+     
+    # Any comment text before the question.
     def comment
       elements[0].text_value.gsub("//", "").rstrip
-    end 
+    end
+    
+    # Returns the percentage value of the answer. 
+    # Defaults to 100% if correct or 50% if wrong.
+    # Subclasses are expected to implement their own version of this function.
+    def mark_answer(response)
+      correct_answers.include?(response) ? 100 : 0
+    end
+    
+    def correct_answers
+      answers.delete_if{|a| !a[:correct]}.map{|a| a[:value]}
+    end
     
   end
   
@@ -83,7 +101,7 @@ module Gift
   class TrueFalseQuestion < Question   
     
     def answers
-      [elements[6].answer]
+      [answer_list.answer]
     end
     
   end
@@ -110,7 +128,7 @@ module Gift
   class MultipleChoiceQuestion < Question
     
     def answers
-      elements[6].elements.map{|e| e.answer}
+      answer_list.elements.map{|e| e.answer}
     end
   end
   
@@ -134,7 +152,7 @@ module Gift
   class ShortAnswerQuestion < Question 
     
     def answers
-      elements[6].elements.map{ |e| e.answer}
+      answer_list.elements.map{ |e| e.answer}
     end
   end
   
@@ -155,7 +173,7 @@ module Gift
   class NumericQuestion < Question
     
     def answers
-       elements[6].elements.map{|e| e.answer}
+       answer_list.elements.map{|e| e.answer}
     end
   end
   
@@ -174,7 +192,7 @@ module Gift
   #              
   class MatchQuestion < Question
      def answers
-       elements[6].elements.map{ |e| e.answer}
+       answer_list.elements.map{ |e| e.answer}
      end 
      
   end
@@ -202,8 +220,15 @@ module Gift
     end
     
     def answers
-      elements[6].elements.map{|e| e.answer}
+      answer_list.elements.map{|e| e.answer}
     end
   end
   
+  class Command  < Treetop::Runtime::SyntaxNode
+    
+    def command_text
+      elements[1].text_value
+    end
+    
+  end
 end
