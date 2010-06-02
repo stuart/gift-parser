@@ -4,9 +4,7 @@ grammar Gift
 
   rule gift
    (question blank_line)+
-   {
-    require File.expand_path('../gift.rb', __FILE__)
-    
+   {    
     def questions
       elements.map{|e| e.question}
     end
@@ -19,42 +17,42 @@ grammar Gift
   end
   
   rule essay_question
-    comment? title? space? question_text '{' nbsp? '}'
+    comment? title? space? question_text '{' nbsp? '}' comment?
     <EssayQuestion>
   end
   
   rule true_false_question
-    comment? title? space? question_text '{' space? (true_answer / false_answer) space? '}'  
+    comment? title? space? question_text '{' space? (true_answer / false_answer) space? '}' comment? 
       <TrueFalseQuestion>
   end
   
   rule short_answer_question
-    comment? title? space? question_text '{' space? (right_answer)+ space? '}'
+    comment? title? space? question_text '{' space? (right_answer)+ space? '}' comment?  
     <ShortAnswerQuestion>
   end
   
   rule mutiple_choice_question
-    comment? title? space? question_text '{' space? (wrong_answer / right_answer)+ space? '}' 
+    comment? title? space? question_text '{' space? (wrong_answer / right_answer)+ space? '}' comment?
     <MultipleChoiceQuestion>
   end
   
   rule numeric_question
-    comment? title? space? question_text '{#' space? (numeric_answer)+ '}'
+    comment? title? space? question_text '{#' space? (numeric_answer)+ '}' comment?
     <NumericQuestion>
   end
   
   rule match_question
-    comment? title? space? question_text '{' space? match_answer+ '}'
+    comment? title? space? question_text '{' space? match_answer+ '}' comment?
     <MatchQuestion>
   end
   
   rule fill_in_question
-    comment? title? space? question_text '{'  space? (wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+
+    comment? title? space? question_text '{'  space? (wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+  comment?
     <FillInQuestion>
   end
   
   rule description_question
-    comment? title? space? question_text
+    comment? title? space? question_text comment?
     <DescriptionQuestion>
   end
 
