@@ -21,7 +21,6 @@ module Gift
   end
 
   module Gift1
-    require File.expand_path('../gift.rb', __FILE__)
     
     def questions
       elements.map{|e| e.question}
@@ -1869,6 +1868,9 @@ module Gift
   end
 
   module MatchAnswer4
+  end
+
+  module MatchAnswer5
     def answer
       { elements[1].text_value.strip => elements[3].text_value.strip }
     end
@@ -1911,18 +1913,70 @@ module Gift
         end
         s3 << r4
         if r4
-          if index < input_length
-            r6 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          i6 = index
+          if has_terminal?('\G[=~}#]', true, index)
+            r7 = true
             @index += 1
           else
-            terminal_parse_failure("any character")
+            r7 = nil
+          end
+          if r7
             r6 = nil
+          else
+            @index = i6
+            r6 = instantiate_node(SyntaxNode,input, index...index)
           end
           s3 << r6
+          if r6
+            i8 = index
+            i9, s9 = index, []
+            if has_terminal?("\\", false, index)
+              r10 = instantiate_node(SyntaxNode,input, index...(index + 1))
+              @index += 1
+            else
+              terminal_parse_failure("\\")
+              r10 = nil
+            end
+            s9 << r10
+            if r10
+              if has_terminal?('\G[=~{}#:]', true, index)
+                r11 = true
+                @index += 1
+              else
+                r11 = nil
+              end
+              s9 << r11
+            end
+            if s9.last
+              r9 = instantiate_node(SyntaxNode,input, i9...index, s9)
+              r9.extend(MatchAnswer0)
+            else
+              @index = i9
+              r9 = nil
+            end
+            if r9
+              r8 = r9
+            else
+              if index < input_length
+                r12 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                @index += 1
+              else
+                terminal_parse_failure("any character")
+                r12 = nil
+              end
+              if r12
+                r8 = r12
+              else
+                @index = i8
+                r8 = nil
+              end
+            end
+            s3 << r8
+          end
         end
         if s3.last
           r3 = instantiate_node(SyntaxNode,input, i3...index, s3)
-          r3.extend(MatchAnswer0)
+          r3.extend(MatchAnswer1)
         else
           @index = i3
           r3 = nil
@@ -1937,108 +1991,108 @@ module Gift
       s0 << r2
       if r2
         if has_terminal?("->", false, index)
-          r7 = instantiate_node(SyntaxNode,input, index...(index + 2))
+          r13 = instantiate_node(SyntaxNode,input, index...(index + 2))
           @index += 2
         else
           terminal_parse_failure("->")
-          r7 = nil
+          r13 = nil
         end
-        s0 << r7
-        if r7
-          s8, i8 = [], index
+        s0 << r13
+        if r13
+          s14, i14 = [], index
           loop do
-            i9, s9 = index, []
-            i10 = index
+            i15, s15 = index, []
+            i16 = index
             if has_terminal?('\G[=~}#]', true, index)
-              r11 = true
+              r17 = true
               @index += 1
             else
-              r11 = nil
+              r17 = nil
             end
-            if r11
-              r10 = nil
+            if r17
+              r16 = nil
             else
-              @index = i10
-              r10 = instantiate_node(SyntaxNode,input, index...index)
+              @index = i16
+              r16 = instantiate_node(SyntaxNode,input, index...index)
             end
-            s9 << r10
-            if r10
-              i12 = index
-              i13, s13 = index, []
+            s15 << r16
+            if r16
+              i18 = index
+              i19, s19 = index, []
               if has_terminal?("\\", false, index)
-                r14 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                r20 = instantiate_node(SyntaxNode,input, index...(index + 1))
                 @index += 1
               else
                 terminal_parse_failure("\\")
-                r14 = nil
+                r20 = nil
               end
-              s13 << r14
-              if r14
+              s19 << r20
+              if r20
                 if has_terminal?('\G[=~{}#:]', true, index)
-                  r15 = true
+                  r21 = true
                   @index += 1
                 else
-                  r15 = nil
+                  r21 = nil
                 end
-                s13 << r15
+                s19 << r21
               end
-              if s13.last
-                r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
-                r13.extend(MatchAnswer1)
+              if s19.last
+                r19 = instantiate_node(SyntaxNode,input, i19...index, s19)
+                r19.extend(MatchAnswer2)
               else
-                @index = i13
-                r13 = nil
+                @index = i19
+                r19 = nil
               end
-              if r13
-                r12 = r13
+              if r19
+                r18 = r19
               else
                 if index < input_length
-                  r16 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                  r22 = instantiate_node(SyntaxNode,input, index...(index + 1))
                   @index += 1
                 else
                   terminal_parse_failure("any character")
-                  r16 = nil
+                  r22 = nil
                 end
-                if r16
-                  r12 = r16
+                if r22
+                  r18 = r22
                 else
-                  @index = i12
-                  r12 = nil
+                  @index = i18
+                  r18 = nil
                 end
               end
-              s9 << r12
+              s15 << r18
             end
-            if s9.last
-              r9 = instantiate_node(SyntaxNode,input, i9...index, s9)
-              r9.extend(MatchAnswer2)
+            if s15.last
+              r15 = instantiate_node(SyntaxNode,input, i15...index, s15)
+              r15.extend(MatchAnswer3)
             else
-              @index = i9
-              r9 = nil
+              @index = i15
+              r15 = nil
             end
-            if r9
-              s8 << r9
+            if r15
+              s14 << r15
             else
               break
             end
           end
-          r8 = instantiate_node(SyntaxNode,input, i8...index, s8)
-          s0 << r8
-          if r8
-            r18 = _nt_space
-            if r18
-              r17 = r18
+          r14 = instantiate_node(SyntaxNode,input, i14...index, s14)
+          s0 << r14
+          if r14
+            r24 = _nt_space
+            if r24
+              r23 = r24
             else
-              r17 = instantiate_node(SyntaxNode,input, index...index)
+              r23 = instantiate_node(SyntaxNode,input, index...index)
             end
-            s0 << r17
+            s0 << r23
           end
         end
       end
     end
     if s0.last
       r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
-      r0.extend(MatchAnswer3)
       r0.extend(MatchAnswer4)
+      r0.extend(MatchAnswer5)
     else
       @index = i0
       r0 = nil

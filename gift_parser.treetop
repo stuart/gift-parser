@@ -17,42 +17,42 @@ grammar Gift
   end
   
   rule essay_question
-    comment? title? space? question_text '{' nbsp? '}' comment?
+    comment? title? space? question_text '{' nbsp? '}'
     <EssayQuestion>
   end
   
   rule true_false_question
-    comment? title? space? question_text '{' space? (true_answer / false_answer) space? '}' comment? 
+    comment? title? space? question_text '{' space? (true_answer / false_answer) space? '}'  
       <TrueFalseQuestion>
   end
   
   rule short_answer_question
-    comment? title? space? question_text '{' space? (right_answer)+ space? '}' comment?  
+    comment? title? space? question_text '{' space? (right_answer)+ space? '}'
     <ShortAnswerQuestion>
   end
   
   rule mutiple_choice_question
-    comment? title? space? question_text '{' space? (wrong_answer / right_answer)+ space? '}' comment?
+    comment? title? space? question_text '{' space? (wrong_answer / right_answer)+ space? '}' 
     <MultipleChoiceQuestion>
   end
   
   rule numeric_question
-    comment? title? space? question_text '{#' space? (numeric_answer)+ '}' comment?
+    comment? title? space? question_text '{#' space? (numeric_answer)+ '}'
     <NumericQuestion>
   end
   
   rule match_question
-    comment? title? space? question_text '{' space? match_answer+ '}' comment?
+    comment? title? space? question_text '{' space? match_answer+ '}'
     <MatchQuestion>
   end
   
   rule fill_in_question
-    comment? title? space? question_text '{'  space? (wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+  comment?
+    comment? title? space? question_text '{'  space? (wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+
     <FillInQuestion>
   end
   
   rule description_question
-    comment? title? space? question_text comment?
+    comment? title? space? question_text
     <DescriptionQuestion>
   end
 
@@ -127,7 +127,7 @@ grammar Gift
   end
   
   rule match_answer
-    "=" (!"->" .)* "->" (![=~}#] (("\\" [=~{}#:])/ .))* space? 
+    "=" (!"->" ![=~}#] (("\\" [=~{}#:])/ .))*  "->" (![=~}#] (("\\" [=~{}#:])/ .))* space? 
     {
       def answer
         { elements[1].text_value.strip => elements[3].text_value.strip }

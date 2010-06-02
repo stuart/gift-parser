@@ -3,6 +3,29 @@ require File.expand_path('../gift_parser.rb', __FILE__)
 
 module Gift
   
+  class Gift
+    
+    attr_accessor :root
+    
+    def initialize(io_or_string)
+      parser = GiftParser.new()
+      case io_or_string
+        when String
+          # Add blank line to make sure we can parse.
+          @root = parser.parse(io_or_string + "\n\n")
+        when IO
+          @root = parser.parse(io_or_string.read)
+          if @root.nil? 
+            raise parser.failure_reason.inspect
+          end
+      end
+    end 
+    
+    def questions
+      @root.questions
+    end
+    
+  end
   # A representation of the questions in the gift format.
   # The GIFT format is described in http://docs.moodle.org/en/GIFT
   #
