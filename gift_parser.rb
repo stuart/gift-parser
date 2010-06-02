@@ -71,13 +71,6 @@ module Gift
     r0
   end
 
-  module Question0
-
-    def text
-      question_text.text_value
-   end
-  end
-
   def _nt_question
     start_index = index
     if node_cache[:question].has_key?(index)
@@ -90,42 +83,34 @@ module Gift
     r1 = _nt_essay_question
     if r1
       r0 = r1
-      r0.extend(Question0)
     else
       r2 = _nt_true_false_question
       if r2
         r0 = r2
-        r0.extend(Question0)
       else
-        r3 = _nt_fill_in_question
+        r3 = _nt_match_question
         if r3
           r0 = r3
-          r0.extend(Question0)
         else
-          r4 = _nt_short_answer_question
+          r4 = _nt_fill_in_question
           if r4
             r0 = r4
-            r0.extend(Question0)
           else
-            r5 = _nt_mutiple_choice_question
+            r5 = _nt_short_answer_question
             if r5
               r0 = r5
-              r0.extend(Question0)
             else
-              r6 = _nt_numeric_question
+              r6 = _nt_mutiple_choice_question
               if r6
                 r0 = r6
-                r0.extend(Question0)
               else
-                r7 = _nt_match_question
+                r7 = _nt_numeric_question
                 if r7
                   r0 = r7
-                  r0.extend(Question0)
                 else
                   r8 = _nt_description_question
                   if r8
                     r0 = r8
-                    r0.extend(Question0)
                   else
                     @index = i0
                     r0 = nil
@@ -739,31 +724,40 @@ module Gift
             end
             s0 << r8
             if r8
-              s9, i9 = [], index
-              loop do
-                r10 = _nt_match_answer
-                if r10
-                  s9 << r10
-                else
-                  break
-                end
-              end
-              if s9.empty?
-                @index = i9
-                r9 = nil
+              r10 = _nt_space
+              if r10
+                r9 = r10
               else
-                r9 = instantiate_node(SyntaxNode,input, i9...index, s9)
+                r9 = instantiate_node(SyntaxNode,input, index...index)
               end
               s0 << r9
               if r9
-                if has_terminal?('}', false, index)
-                  r11 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                  @index += 1
-                else
-                  terminal_parse_failure('}')
+                s11, i11 = [], index
+                loop do
+                  r12 = _nt_match_answer
+                  if r12
+                    s11 << r12
+                  else
+                    break
+                  end
+                end
+                if s11.empty?
+                  @index = i11
                   r11 = nil
+                else
+                  r11 = instantiate_node(SyntaxNode,input, i11...index, s11)
                 end
                 s0 << r11
+                if r11
+                  if has_terminal?('}', false, index)
+                    r13 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                    @index += 1
+                  else
+                    terminal_parse_failure('}')
+                    r13 = nil
+                  end
+                  s0 << r13
+                end
               end
             end
           end
@@ -1874,6 +1868,12 @@ module Gift
   module MatchAnswer3
   end
 
+  module MatchAnswer4
+    def answer
+      { elements[1].text_value.strip => elements[3].text_value.strip }
+    end
+  end
+
   def _nt_match_answer
     start_index = index
     if node_cache[:match_answer].has_key?(index)
@@ -2038,6 +2038,7 @@ module Gift
     if s0.last
       r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
       r0.extend(MatchAnswer3)
+      r0.extend(MatchAnswer4)
     else
       @index = i0
       r0 = nil

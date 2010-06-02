@@ -126,6 +126,24 @@ class GiftSemanticTest < Test::Unit::TestCase
                          {:maximum => 3.0, :minimum => 3.0}]
   end
   
+  def test_numeric_neagitve_numbers
+    q = @parser.parse("Calculate 2 - 6.{#-4.0}\n\n").questions[0]
+    assert q.answers == [{:maximum => -4.0, :minimum => -4.0}]
+  end
+  
+  def test_matching_question
+    q = @parser.parse("Match the names. { =Charlie -> Chaplin =Groucho -> Marx =Buster -> Keaton  =Stan -> Laurel }\n\n").questions[0]
+    assert q.class == Gift::MatchQuestion 
+    assert q.text == "Match the names."
+    assert q.answers == [{'Charlie' => 'Chaplin'}, {'Groucho' => 'Marx'}, {'Buster' => 'Keaton'}, {'Stan' => 'Laurel'}]
+  end
+  
+  def test_fill_in_question
+    q = @parser.parse("There were {=three} little pigs.\n\n").questions[0]
+    assert q.class == Gift::FillInQuestion
+    assert q.text == "There were %% little pigs."
+    assert q.answers == [{:value => 'three', :correct => true, :feedback => nil}]
+  end
 end
 
 Test::Unit::UI::Console::TestRunner.run(GiftSemanticTest)

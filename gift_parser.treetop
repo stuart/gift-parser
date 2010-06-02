@@ -15,12 +15,7 @@ grammar Gift
   end
 
   rule question
-     (essay_question / true_false_question / fill_in_question / short_answer_question / mutiple_choice_question / numeric_question /  match_question / description_question)
-    { 
-      def text
-        question_text.text_value
-     end 
-    }
+     (essay_question / true_false_question  /  match_question / fill_in_question / short_answer_question / mutiple_choice_question / numeric_question / description_question)
   end
   
   rule essay_question
@@ -49,7 +44,7 @@ grammar Gift
   end
   
   rule match_question
-    comment? title? space? question_text '{' match_answer+ '}'
+    comment? title? space? question_text '{' space? match_answer+ '}'
     <MatchQuestion>
   end
   
@@ -134,7 +129,12 @@ grammar Gift
   end
   
   rule match_answer
-    "=" (!"->" .)* "->" (![=~}#] (("\\" [=~{}#:])/ .))* space?
+    "=" (!"->" .)* "->" (![=~}#] (("\\" [=~{}#:])/ .))* space? 
+    {
+      def answer
+        { elements[1].text_value.strip => elements[3].text_value.strip }
+      end
+    }
   end
 
   rule true_answer

@@ -8,6 +8,10 @@ module Gift
     def answers
       []
     end
+     
+    def text
+      question_text.text_value.strip
+    end 
     
   end
   
@@ -49,11 +53,20 @@ module Gift
   end
   
   class MatchQuestion < Question
-  
+     def answers
+       elements[6].elements.map{ |e| e.answer}
+     end 
+     
   end
   
   class FillInQuestion < Question
-  
+    def text
+      question_text.text_value + "%%" + elements[9].text_value
+    end
+    
+    def answers
+      elements[6].elements.map{|e| e.answer}
+    end
   end
   
 end
