@@ -8,7 +8,6 @@ require 'pp'
 require 'test/unit'
 require 'test/unit/ui/console/testrunner'
 
-system "tt #{File.expand_path('../../gift_parser.treetop',  __FILE__)}"
 require File.expand_path('../../gift',  __FILE__)
 require File.expand_path('../GIFT-examples.rb', __FILE__)
 

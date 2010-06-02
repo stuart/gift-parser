@@ -1,0 +1,16 @@
+
+task  :default => [:treetop, :test]
+
+task :test do
+  # Run all the tests
+  Dir.glob("test/*_test.rb").each do |file|
+    require file
+  end
+end 
+
+task :treetop do 
+  # Generate the parser from the treetop source
+  print "Generating the parser..."
+  system("tt #{File.expand_path("../gift_parser.treetop", __FILE__)}" ) 
+  puts "done."
+end
