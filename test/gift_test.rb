@@ -25,9 +25,31 @@ class GiftTest < Test::Unit::TestCase
     end
   end
   
- def test_checking_answers
- end
- 
+  def test_true_false_question_answers
+    g = Gift::Gift.new(File.open(File.expand_path("../GIFT-examples.txt", __FILE__))) 
+    assert g.questions[0].mark_answer(true) == 100
+    assert g.questions[0].mark_answer(false) == 0
+  end
+  
+  def test_multiple_choice_answers
+    g = Gift::Gift.new(File.open(File.expand_path("../GIFT-examples.txt", __FILE__))) 
+    assert g.questions[1].mark_answer("yellow") == 100
+    assert g.questions[1].mark_answer("red") == 0
+    assert g.questions[1].mark_answer("blue") == 0
+  end
+  
+  def test_fill_in_the_blank
+    g = Gift::Gift.new(File.open(File.expand_path("../GIFT-examples.txt", __FILE__))) 
+    assert g.questions[2].mark_answer("two") == 100
+    assert g.questions[2].mark_answer("2") == 100
+    assert g.questions[2].mark_answer("red") == 0
+  end
+  
+  def test_matching_question
+    g = Gift::Gift.new(File.open(File.expand_path("../GIFT-examples.txt", __FILE__))) 
+    assert g.questions[3].mark_answer({"cat" => "cat food", "dog" => "dog food"}) == 100
+    assert g.questions[3].mark_answer({"cat" => "dog food", "dog" => "cat food"}) == 0
+  end
 end 
 
 Test::Unit::UI::Console::TestRunner.run(GiftTest)   

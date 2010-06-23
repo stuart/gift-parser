@@ -8,7 +8,7 @@ module Gift
   include Treetop::Runtime
 
   def root
-    @root || :gift
+    @root ||= :gift
   end
 
   module Gift0
@@ -38,7 +38,10 @@ module Gift
     start_index = index
     if node_cache[:gift].has_key?(index)
       cached = node_cache[:gift][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -103,7 +106,10 @@ module Gift
     start_index = index
     if node_cache[:command].has_key?(index)
       cached = node_cache[:command][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -176,7 +182,10 @@ module Gift
     start_index = index
     if node_cache[:question].has_key?(index)
       cached = node_cache[:question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -240,7 +249,10 @@ module Gift
     start_index = index
     if node_cache[:essay_question].has_key?(index)
       cached = node_cache[:essay_question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -331,7 +343,10 @@ module Gift
     start_index = index
     if node_cache[:true_false_question].has_key?(index)
       cached = node_cache[:true_false_question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -447,7 +462,10 @@ module Gift
     start_index = index
     if node_cache[:short_answer_question].has_key?(index)
       cached = node_cache[:short_answer_question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -565,7 +583,10 @@ module Gift
     start_index = index
     if node_cache[:mutiple_choice_question].has_key?(index)
       cached = node_cache[:mutiple_choice_question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -695,7 +716,10 @@ module Gift
     start_index = index
     if node_cache[:numeric_question].has_key?(index)
       cached = node_cache[:numeric_question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -804,7 +828,10 @@ module Gift
     start_index = index
     if node_cache[:match_question].has_key?(index)
       cached = node_cache[:match_question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -919,7 +946,10 @@ module Gift
     start_index = index
     if node_cache[:fill_in_question].has_key?(index)
       cached = node_cache[:fill_in_question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -1129,7 +1159,10 @@ module Gift
     start_index = index
     if node_cache[:description_question].has_key?(index)
       cached = node_cache[:description_question][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -1186,7 +1219,10 @@ module Gift
     start_index = index
     if node_cache[:number].has_key?(index)
       cached = node_cache[:number][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -1305,7 +1341,10 @@ module Gift
     start_index = index
     if node_cache[:weight].has_key?(index)
       cached = node_cache[:weight][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -1452,7 +1491,10 @@ module Gift
     start_index = index
     if node_cache[:numeric_answer].has_key?(index)
       cached = node_cache[:numeric_answer][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -1543,7 +1585,10 @@ module Gift
     start_index = index
     if node_cache[:numeric_with_tolerance].has_key?(index)
       cached = node_cache[:numeric_with_tolerance][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -1640,7 +1685,10 @@ module Gift
     start_index = index
     if node_cache[:range].has_key?(index)
       cached = node_cache[:range][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -1696,7 +1744,10 @@ module Gift
     start_index = index
     if node_cache[:wrong_answer].has_key?(index)
       cached = node_cache[:wrong_answer][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -1851,7 +1902,10 @@ module Gift
     start_index = index
     if node_cache[:right_answer].has_key?(index)
       cached = node_cache[:right_answer][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2010,7 +2064,10 @@ module Gift
     start_index = index
     if node_cache[:match_answer].has_key?(index)
       cached = node_cache[:match_answer][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2246,7 +2303,10 @@ module Gift
     start_index = index
     if node_cache[:true_answer].has_key?(index)
       cached = node_cache[:true_answer][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2322,7 +2382,10 @@ module Gift
     start_index = index
     if node_cache[:false_answer].has_key?(index)
       cached = node_cache[:false_answer][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2399,7 +2462,10 @@ module Gift
     start_index = index
     if node_cache[:comment].has_key?(index)
       cached = node_cache[:comment][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2490,7 +2556,10 @@ module Gift
     start_index = index
     if node_cache[:title].has_key?(index)
       cached = node_cache[:title][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2622,105 +2691,277 @@ module Gift
   module QuestionText1
   end
 
+  module QuestionText2
+    def markup
+      elements[0]
+    end
+
+  end
+
   def _nt_question_text
     start_index = index
     if node_cache[:question_text].has_key?(index)
       cached = node_cache[:question_text][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
-    s0, i0 = [], index
-    loop do
-      i1, s1 = index, []
-      i2 = index
-      if has_terminal?("{", false, index)
-        r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
-        @index += 1
-      else
-        terminal_parse_failure("{")
-        r3 = nil
+    i0, s0 = index, []
+    r2 = _nt_markup
+    if r2
+      r1 = r2
+    else
+      r1 = instantiate_node(SyntaxNode,input, index...index)
+    end
+    s0 << r1
+    if r1
+      s3, i3 = [], index
+      loop do
+        i4, s4 = index, []
+        i5 = index
+        if has_terminal?("{", false, index)
+          r6 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure("{")
+          r6 = nil
+        end
+        if r6
+          r5 = nil
+        else
+          @index = i5
+          r5 = instantiate_node(SyntaxNode,input, index...index)
+        end
+        s4 << r5
+        if r5
+          i7 = index
+          r8 = _nt_blank_line
+          if r8
+            r7 = nil
+          else
+            @index = i7
+            r7 = instantiate_node(SyntaxNode,input, index...index)
+          end
+          s4 << r7
+          if r7
+            i9 = index
+            i10, s10 = index, []
+            if has_terminal?("\\", false, index)
+              r11 = instantiate_node(SyntaxNode,input, index...(index + 1))
+              @index += 1
+            else
+              terminal_parse_failure("\\")
+              r11 = nil
+            end
+            s10 << r11
+            if r11
+              if has_terminal?('\G[=~{}#:]', true, index)
+                r12 = true
+                @index += 1
+              else
+                r12 = nil
+              end
+              s10 << r12
+            end
+            if s10.last
+              r10 = instantiate_node(SyntaxNode,input, i10...index, s10)
+              r10.extend(QuestionText0)
+            else
+              @index = i10
+              r10 = nil
+            end
+            if r10
+              r9 = r10
+            else
+              if index < input_length
+                r13 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                @index += 1
+              else
+                terminal_parse_failure("any character")
+                r13 = nil
+              end
+              if r13
+                r9 = r13
+              else
+                @index = i9
+                r9 = nil
+              end
+            end
+            s4 << r9
+          end
+        end
+        if s4.last
+          r4 = instantiate_node(SyntaxNode,input, i4...index, s4)
+          r4.extend(QuestionText1)
+        else
+          @index = i4
+          r4 = nil
+        end
+        if r4
+          s3 << r4
+        else
+          break
+        end
       end
-      if r3
-        r2 = nil
-      else
-        @index = i2
-        r2 = instantiate_node(SyntaxNode,input, index...index)
+      r3 = instantiate_node(SyntaxNode,input, i3...index, s3)
+      s0 << r3
+    end
+    if s0.last
+      r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
+      r0.extend(QuestionText2)
+    else
+      @index = i0
+      r0 = nil
+    end
+
+    node_cache[:question_text][start_index] = r0
+
+    r0
+  end
+
+  module Markup0
+  end
+
+  module Markup1
+  end
+
+  module Markup2
+  end
+
+  def _nt_markup
+    start_index = index
+    if node_cache[:markup].has_key?(index)
+      cached = node_cache[:markup][index]
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
       end
-      s1 << r2
-      if r2
+      return cached
+    end
+
+    i0, s0 = index, []
+    if has_terminal?("[", false, index)
+      r1 = instantiate_node(SyntaxNode,input, index...(index + 1))
+      @index += 1
+    else
+      terminal_parse_failure("[")
+      r1 = nil
+    end
+    s0 << r1
+    if r1
+      s2, i2 = [], index
+      loop do
+        i3, s3 = index, []
         i4 = index
-        r5 = _nt_blank_line
+        if has_terminal?("]", false, index)
+          r5 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure("]")
+          r5 = nil
+        end
         if r5
           r4 = nil
         else
           @index = i4
           r4 = instantiate_node(SyntaxNode,input, index...index)
         end
-        s1 << r4
+        s3 << r4
         if r4
           i6 = index
-          i7, s7 = index, []
-          if has_terminal?("\\", false, index)
-            r8 = instantiate_node(SyntaxNode,input, index...(index + 1))
-            @index += 1
-          else
-            terminal_parse_failure("\\")
-            r8 = nil
-          end
-          s7 << r8
-          if r8
-            if has_terminal?('\G[=~{}#:]', true, index)
-              r9 = true
-              @index += 1
-            else
-              r9 = nil
-            end
-            s7 << r9
-          end
-          if s7.last
-            r7 = instantiate_node(SyntaxNode,input, i7...index, s7)
-            r7.extend(QuestionText0)
-          else
-            @index = i7
-            r7 = nil
-          end
+          r7 = _nt_blank_line
           if r7
-            r6 = r7
+            r6 = nil
           else
-            if index < input_length
+            @index = i6
+            r6 = instantiate_node(SyntaxNode,input, index...index)
+          end
+          s3 << r6
+          if r6
+            i8 = index
+            i9, s9 = index, []
+            if has_terminal?("\\", false, index)
               r10 = instantiate_node(SyntaxNode,input, index...(index + 1))
               @index += 1
             else
-              terminal_parse_failure("any character")
+              terminal_parse_failure("\\")
               r10 = nil
             end
+            s9 << r10
             if r10
-              r6 = r10
-            else
-              @index = i6
-              r6 = nil
+              if has_terminal?('\G[=~{}#:]', true, index)
+                r11 = true
+                @index += 1
+              else
+                r11 = nil
+              end
+              s9 << r11
             end
+            if s9.last
+              r9 = instantiate_node(SyntaxNode,input, i9...index, s9)
+              r9.extend(Markup0)
+            else
+              @index = i9
+              r9 = nil
+            end
+            if r9
+              r8 = r9
+            else
+              if index < input_length
+                r12 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                @index += 1
+              else
+                terminal_parse_failure("any character")
+                r12 = nil
+              end
+              if r12
+                r8 = r12
+              else
+                @index = i8
+                r8 = nil
+              end
+            end
+            s3 << r8
           end
-          s1 << r6
+        end
+        if s3.last
+          r3 = instantiate_node(SyntaxNode,input, i3...index, s3)
+          r3.extend(Markup1)
+        else
+          @index = i3
+          r3 = nil
+        end
+        if r3
+          s2 << r3
+        else
+          break
         end
       end
-      if s1.last
-        r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
-        r1.extend(QuestionText1)
-      else
-        @index = i1
-        r1 = nil
-      end
-      if r1
-        s0 << r1
-      else
-        break
+      r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
+      s0 << r2
+      if r2
+        if has_terminal?("]", false, index)
+          r13 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure("]")
+          r13 = nil
+        end
+        s0 << r13
       end
     end
-    r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
+    if s0.last
+      r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
+      r0.extend(Markup2)
+    else
+      @index = i0
+      r0 = nil
+    end
 
-    node_cache[:question_text][start_index] = r0
+    node_cache[:markup][start_index] = r0
 
     r0
   end
@@ -2738,7 +2979,10 @@ module Gift
     start_index = index
     if node_cache[:feedback].has_key?(index)
       cached = node_cache[:feedback][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2848,7 +3092,10 @@ module Gift
     start_index = index
     if node_cache[:line_break].has_key?(index)
       cached = node_cache[:line_break][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2887,7 +3134,10 @@ module Gift
     start_index = index
     if node_cache[:nbsp].has_key?(index)
       cached = node_cache[:nbsp][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -2940,7 +3190,10 @@ module Gift
     start_index = index
     if node_cache[:space].has_key?(index)
       cached = node_cache[:space][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 
@@ -3026,7 +3279,10 @@ module Gift
     start_index = index
     if node_cache[:blank_line].has_key?(index)
       cached = node_cache[:blank_line][index]
-      @index = cached.interval.end if cached
+      if cached
+        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+        @index = cached.interval.end
+      end
       return cached
     end
 

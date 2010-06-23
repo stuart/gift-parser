@@ -36,6 +36,11 @@ module Gift
     
     attr_accessor :category
     
+    def initialize(*args)
+      self.category = Command::category
+      super(*args)
+    end
+    
     # The set of possible answers for this question.
     # Returns a array of hashes with contents depending on the subclass.
     def answers
@@ -57,6 +62,11 @@ module Gift
     def comment
       elements[0].text_value.gsub("//", "").rstrip
     end
+    
+    def markup
+      question_text.markup.text_value.gsub(/[\[\]]/, '')
+    end
+    
     
     # Returns the percentage value of the answer. 
     # Defaults to 100% if correct or 50% if wrong.
@@ -104,6 +114,9 @@ module Gift
       [answer_list.answer]
     end
     
+    def mark_answer(answer)
+      (answers[0][:value] == answer) ? 100 : 0
+    end
   end
   
   # A question with multiple choices avaialble
@@ -188,12 +201,16 @@ module Gift
   #     }  </tt>
   #
   # Answer format: 
-  # [{'Canada' => 'Ottowa'},{'Italy' => 'Rome'}]</tt>
+  # {'Canada' => 'Ottowa','Italy' => 'Rome'}</tt>
   #              
   class MatchQuestion < Question
      def answers
-       answer_list.elements.map{ |e| e.answer}
-     end 
+       answer_list.elements.inject({}){ |ans, e| ans.merge e.answer}
+     end
+     
+     def mark_answer(response)
+      response == answers ? 100 : 0
+     end
      
   end
   
@@ -225,6 +242,22 @@ module Gift
   end
   
   class Command  < Treetop::Runtime::SyntaxNode
+    @@category = ""
+    
+    def self.category
+      @@category
+    end
+    
+    def self.category=(new_category)
+      @@category = new_category
+    end
+    
+    def initialize(input, interval, elements)      
+      if /^\$CATEGORY:.*/.match input[interval]
+        @@category = input[interval].gsub(/^\$CATEGORY:/, '').strip
+      end
+      super(input,interval,elements)
+    end
     
     def command_text
       elements[1].text_value

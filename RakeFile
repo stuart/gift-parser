@@ -14,7 +14,7 @@ task :treetop do
   system("tt #{File.expand_path("../gift_parser.treetop", __FILE__)}" ) 
   puts "done."
 end
-                                        
+
 task :clean do
   system( "rm -r #{File.expand_path("../doc/*", __FILE__)}")
   system( "rm #{File.expand_path("../gift_parser.rb", __FILE__)}")

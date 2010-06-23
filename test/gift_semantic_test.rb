@@ -133,7 +133,7 @@ class GiftSemanticTest < Test::Unit::TestCase
     q = @parser.parse("Match the names. { =Charlie -> Chaplin =Groucho -> Marx =Buster -> Keaton  =Stan -> Laurel }\n\n").questions[0]
     assert q.class == Gift::MatchQuestion 
     assert q.text == "Match the names."
-    assert q.answers == [{'Charlie' => 'Chaplin'}, {'Groucho' => 'Marx'}, {'Buster' => 'Keaton'}, {'Stan' => 'Laurel'}]
+    assert q.answers == {'Charlie' => 'Chaplin', 'Groucho' => 'Marx', 'Buster' => 'Keaton', 'Stan' => 'Laurel'}
   end
   
   def test_fill_in_question
@@ -164,10 +164,16 @@ class GiftSemanticTest < Test::Unit::TestCase
   end
  
   def test_category_setting
-    q = @parser.parse("$CATEGORY: food \n\nIs apple a food?{T}\n\n$CATEGORY: drink\n\nIs water drinkable?{T}\n\n" )
+    q = @parser.parse("$CATEGORY: food \n\nIs apple a food?{T}\n\n$CATEGORY: drink \n\nIs water drinkable?{T}\n\n" )
     assert q.questions[0].category == "food"
     assert q.questions[1].category == "drink"
   end
+  
+  def test_markup_type
+    q = @parser.parse("[textile] This *essay* is marked up in textile.{}\n\n").questions[0]
+    assert q.markup == "textile"
+  end
+  
 end
 
 Test::Unit::UI::Console::TestRunner.run(GiftSemanticTest)

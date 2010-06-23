@@ -16,7 +16,7 @@ grammar Gift
       elements.map{|e| e.elements[0].elements[0].command_text}
     end
    }
-   
+  
   end
   
   rule command
@@ -35,7 +35,7 @@ grammar Gift
   end
   
   rule true_false_question
-    comment? title? space? question_text '{' space? answer_list:(true_answer / false_answer) space? '}'  
+     comment? title? space? question_text '{' space? answer_list:(true_answer / false_answer) space? '}'  
       <TrueFalseQuestion>
   end
   
@@ -177,9 +177,13 @@ grammar Gift
   end
 
   rule question_text
-    (!"{" !blank_line (("\\" [=~{}#:])/ .))*
+    markup:markup? (!"{" !blank_line (("\\" [=~{}#:])/ .))*
   end
 
+  rule markup
+    "[" (!"]" !blank_line (("\\" [=~{}#:])/ .))* "]"
+  end
+  
   rule feedback
     "#" (![=~}#] (("\\" [=~{}#:])/ .))*
   end
