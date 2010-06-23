@@ -8,7 +8,7 @@ module Gift
   include Treetop::Runtime
 
   def root
-    @root ||= :gift
+    @root || :gift
   end
 
   module Gift0
@@ -38,10 +38,7 @@ module Gift
     start_index = index
     if node_cache[:gift].has_key?(index)
       cached = node_cache[:gift][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -106,10 +103,7 @@ module Gift
     start_index = index
     if node_cache[:command].has_key?(index)
       cached = node_cache[:command][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -182,10 +176,7 @@ module Gift
     start_index = index
     if node_cache[:question].has_key?(index)
       cached = node_cache[:question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -249,10 +240,7 @@ module Gift
     start_index = index
     if node_cache[:essay_question].has_key?(index)
       cached = node_cache[:essay_question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -343,10 +331,7 @@ module Gift
     start_index = index
     if node_cache[:true_false_question].has_key?(index)
       cached = node_cache[:true_false_question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -462,10 +447,7 @@ module Gift
     start_index = index
     if node_cache[:short_answer_question].has_key?(index)
       cached = node_cache[:short_answer_question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -583,10 +565,7 @@ module Gift
     start_index = index
     if node_cache[:mutiple_choice_question].has_key?(index)
       cached = node_cache[:mutiple_choice_question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -716,10 +695,7 @@ module Gift
     start_index = index
     if node_cache[:numeric_question].has_key?(index)
       cached = node_cache[:numeric_question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -828,10 +804,7 @@ module Gift
     start_index = index
     if node_cache[:match_question].has_key?(index)
       cached = node_cache[:match_question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -946,10 +919,7 @@ module Gift
     start_index = index
     if node_cache[:fill_in_question].has_key?(index)
       cached = node_cache[:fill_in_question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -1159,10 +1129,7 @@ module Gift
     start_index = index
     if node_cache[:description_question].has_key?(index)
       cached = node_cache[:description_question][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -1219,10 +1186,7 @@ module Gift
     start_index = index
     if node_cache[:number].has_key?(index)
       cached = node_cache[:number][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -1341,10 +1305,7 @@ module Gift
     start_index = index
     if node_cache[:weight].has_key?(index)
       cached = node_cache[:weight][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -1491,10 +1452,7 @@ module Gift
     start_index = index
     if node_cache[:numeric_answer].has_key?(index)
       cached = node_cache[:numeric_answer][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -1585,10 +1543,7 @@ module Gift
     start_index = index
     if node_cache[:numeric_with_tolerance].has_key?(index)
       cached = node_cache[:numeric_with_tolerance][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -1685,10 +1640,7 @@ module Gift
     start_index = index
     if node_cache[:range].has_key?(index)
       cached = node_cache[:range][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -1744,10 +1696,7 @@ module Gift
     start_index = index
     if node_cache[:wrong_answer].has_key?(index)
       cached = node_cache[:wrong_answer][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -1902,10 +1851,7 @@ module Gift
     start_index = index
     if node_cache[:right_answer].has_key?(index)
       cached = node_cache[:right_answer][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -2064,10 +2010,7 @@ module Gift
     start_index = index
     if node_cache[:match_answer].has_key?(index)
       cached = node_cache[:match_answer][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -2303,10 +2246,7 @@ module Gift
     start_index = index
     if node_cache[:true_answer].has_key?(index)
       cached = node_cache[:true_answer][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -2382,10 +2322,7 @@ module Gift
     start_index = index
     if node_cache[:false_answer].has_key?(index)
       cached = node_cache[:false_answer][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -2462,10 +2399,7 @@ module Gift
     start_index = index
     if node_cache[:comment].has_key?(index)
       cached = node_cache[:comment][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -2556,10 +2490,7 @@ module Gift
     start_index = index
     if node_cache[:title].has_key?(index)
       cached = node_cache[:title][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -2702,10 +2633,7 @@ module Gift
     start_index = index
     if node_cache[:question_text].has_key?(index)
       cached = node_cache[:question_text][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -2835,10 +2763,7 @@ module Gift
     start_index = index
     if node_cache[:markup].has_key?(index)
       cached = node_cache[:markup][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -2979,10 +2904,7 @@ module Gift
     start_index = index
     if node_cache[:feedback].has_key?(index)
       cached = node_cache[:feedback][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -3092,10 +3014,7 @@ module Gift
     start_index = index
     if node_cache[:line_break].has_key?(index)
       cached = node_cache[:line_break][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -3134,10 +3053,7 @@ module Gift
     start_index = index
     if node_cache[:nbsp].has_key?(index)
       cached = node_cache[:nbsp][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -3190,10 +3106,7 @@ module Gift
     start_index = index
     if node_cache[:space].has_key?(index)
       cached = node_cache[:space][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
@@ -3279,10 +3192,7 @@ module Gift
     start_index = index
     if node_cache[:blank_line].has_key?(index)
       cached = node_cache[:blank_line][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
+      @index = cached.interval.end if cached
       return cached
     end
 
