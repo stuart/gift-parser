@@ -1,3 +1,16 @@
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "gift-parser"
+    gemspec.summary = "Moodle GIFT format parser"
+    gemspec.description = "A library for parsing the Moodle GIFT question format."
+    gemspec.email = "stuart.coyle@gmail.com"
+    gemspec.homepage = "http://github.com/stuart/gift-parser"
+    gemspec.authors = ["Stuart Coyle"]
+  end
+rescue LoadError
+  puts "Jeweler not available. Install it with: gem install jeweler"
+end
 
 task  :default => [:treetop, :test]
 
@@ -11,7 +24,7 @@ end
 task :treetop do 
   # Generate the parser from the treetop source
   print "Generating the parser..."
-  system("tt #{File.expand_path("../gift_parser.treetop", __FILE__)}" ) 
+  system("tt #{File.expand_path("../src/gift_parser.treetop", __FILE__)}" ) 
   puts "done."
 end
 
