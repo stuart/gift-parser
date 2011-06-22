@@ -63,8 +63,12 @@ module Gift
       elements[0].text_value.gsub("//", "").rstrip
     end
     
-    def markup
-      question_text.markup.text_value.gsub(/[\[\]]/, '')
+    # The markup language that the question text is encoded in.
+    # This library does not do any of the markup translation,
+    # programs can use this info to translate as needed.
+    def markup_language
+      #question_text.markup.text_value.gsub(/[\[\]]/, '')
+      markup.text_value.gsub(/[\[\]]/, '')
     end
     
     

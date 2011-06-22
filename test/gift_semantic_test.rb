@@ -171,7 +171,8 @@ class GiftSemanticTest < Test::Unit::TestCase
   
   def test_markup_type
     q = @parser.parse("[textile] This *essay* is marked up in textile.{}\n\n").questions[0]
-    assert q.markup == "textile"
+    assert q.markup_language == "textile"
+    assert q.text == "This *essay* is marked up in textile."
   end
   
 end

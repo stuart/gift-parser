@@ -30,7 +30,7 @@ grammar Gift
   
 # Question Types
   rule essay_question
-    comment? title? space? question_text '{' nbsp? '}'
+    comment? title? space? markup:markup? question_text '{' nbsp? '}'
     <EssayQuestion>
   end
   
@@ -177,7 +177,7 @@ grammar Gift
   end
 
   rule question_text
-    markup:markup? (!"{" !blank_line (("\\" [=~{}#:])/ .))*
+    (!"{" !blank_line (("\\" [=~{}#:])/ .))*
   end
 
   rule markup
