@@ -54,21 +54,20 @@ module Gift
     
     # The question title, defaults to the question text if no title is given.
     def title
-      t = elements[1].text_value.gsub("::", "")
+      t = _title.text_value.gsub("::", "")
       t.blank? ? self.text : t
     end
      
     # Any comment text before the question.
     def comment
-      elements[0].text_value.gsub("//", "").rstrip
+      _comment.text_value.gsub("//", "").rstrip
     end
     
     # The markup language that the question text is encoded in.
     # This library does not do any of the markup translation,
     # programs can use this info to translate as needed.
     def markup_language
-      #question_text.markup.text_value.gsub(/[\[\]]/, '')
-      markup.text_value.gsub(/[\[\]]/, '')
+      _markup.text_value.gsub(/[\[\]]/, '')
     end
     
     
@@ -237,7 +236,7 @@ module Gift
   #
   class FillInQuestion < Question
     def text
-      question_text.text_value + "%%" + elements[9].text_value
+      question_text.text_value + "%%" + _suffix.text_value
     end
     
     def answers

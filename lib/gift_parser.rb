@@ -239,7 +239,15 @@ module Gift
   end
 
   module EssayQuestion0
-    def markup
+    def _comment
+      elements[0]
+    end
+
+    def _title
+      elements[1]
+    end
+
+    def _markup
       elements[3]
     end
 
@@ -342,12 +350,24 @@ module Gift
   end
 
   module TrueFalseQuestion0
-    def question_text
+    def _comment
+      elements[0]
+    end
+
+    def _title
+      elements[1]
+    end
+
+    def _markup
       elements[3]
     end
 
+    def question_text
+      elements[4]
+    end
+
     def answer_list
-      elements[6]
+      elements[7]
     end
 
   end
@@ -388,57 +408,66 @@ module Gift
         end
         s0 << r5
         if r5
-          r7 = _nt_question_text
+          r8 = _nt_markup
+          if r8
+            r7 = r8
+          else
+            r7 = instantiate_node(SyntaxNode,input, index...index)
+          end
           s0 << r7
           if r7
-            if has_terminal?('{', false, index)
-              r8 = instantiate_node(SyntaxNode,input, index...(index + 1))
-              @index += 1
-            else
-              terminal_parse_failure('{')
-              r8 = nil
-            end
-            s0 << r8
-            if r8
-              r10 = _nt_space
-              if r10
-                r9 = r10
+            r9 = _nt_question_text
+            s0 << r9
+            if r9
+              if has_terminal?('{', false, index)
+                r10 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                @index += 1
               else
-                r9 = instantiate_node(SyntaxNode,input, index...index)
+                terminal_parse_failure('{')
+                r10 = nil
               end
-              s0 << r9
-              if r9
-                i11 = index
-                r12 = _nt_true_answer
+              s0 << r10
+              if r10
+                r12 = _nt_space
                 if r12
                   r11 = r12
                 else
-                  r13 = _nt_false_answer
-                  if r13
-                    r11 = r13
-                  else
-                    @index = i11
-                    r11 = nil
-                  end
+                  r11 = instantiate_node(SyntaxNode,input, index...index)
                 end
                 s0 << r11
                 if r11
-                  r15 = _nt_space
-                  if r15
-                    r14 = r15
-                  else
-                    r14 = instantiate_node(SyntaxNode,input, index...index)
-                  end
-                  s0 << r14
+                  i13 = index
+                  r14 = _nt_true_answer
                   if r14
-                    if has_terminal?('}', false, index)
-                      r16 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                      @index += 1
+                    r13 = r14
+                  else
+                    r15 = _nt_false_answer
+                    if r15
+                      r13 = r15
                     else
-                      terminal_parse_failure('}')
-                      r16 = nil
+                      @index = i13
+                      r13 = nil
+                    end
+                  end
+                  s0 << r13
+                  if r13
+                    r17 = _nt_space
+                    if r17
+                      r16 = r17
+                    else
+                      r16 = instantiate_node(SyntaxNode,input, index...index)
                     end
                     s0 << r16
+                    if r16
+                      if has_terminal?('}', false, index)
+                        r18 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                        @index += 1
+                      else
+                        terminal_parse_failure('}')
+                        r18 = nil
+                      end
+                      s0 << r18
+                    end
                   end
                 end
               end
@@ -461,12 +490,24 @@ module Gift
   end
 
   module ShortAnswerQuestion0
-    def question_text
+    def _comment
+      elements[0]
+    end
+
+    def _title
+      elements[1]
+    end
+
+    def _markup
       elements[3]
     end
 
+    def question_text
+      elements[4]
+    end
+
     def answer_list
-      elements[6]
+      elements[7]
     end
 
   end
@@ -507,59 +548,68 @@ module Gift
         end
         s0 << r5
         if r5
-          r7 = _nt_question_text
+          r8 = _nt_markup
+          if r8
+            r7 = r8
+          else
+            r7 = instantiate_node(SyntaxNode,input, index...index)
+          end
           s0 << r7
           if r7
-            if has_terminal?('{', false, index)
-              r8 = instantiate_node(SyntaxNode,input, index...(index + 1))
-              @index += 1
-            else
-              terminal_parse_failure('{')
-              r8 = nil
-            end
-            s0 << r8
-            if r8
-              r10 = _nt_space
-              if r10
-                r9 = r10
+            r9 = _nt_question_text
+            s0 << r9
+            if r9
+              if has_terminal?('{', false, index)
+                r10 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                @index += 1
               else
-                r9 = instantiate_node(SyntaxNode,input, index...index)
+                terminal_parse_failure('{')
+                r10 = nil
               end
-              s0 << r9
-              if r9
-                s11, i11 = [], index
-                loop do
-                  r12 = _nt_right_answer
-                  if r12
-                    s11 << r12
-                  else
-                    break
-                  end
-                end
-                if s11.empty?
-                  @index = i11
-                  r11 = nil
+              s0 << r10
+              if r10
+                r12 = _nt_space
+                if r12
+                  r11 = r12
                 else
-                  r11 = instantiate_node(SyntaxNode,input, i11...index, s11)
+                  r11 = instantiate_node(SyntaxNode,input, index...index)
                 end
                 s0 << r11
                 if r11
-                  r14 = _nt_space
-                  if r14
-                    r13 = r14
+                  s13, i13 = [], index
+                  loop do
+                    r14 = _nt_right_answer
+                    if r14
+                      s13 << r14
+                    else
+                      break
+                    end
+                  end
+                  if s13.empty?
+                    @index = i13
+                    r13 = nil
                   else
-                    r13 = instantiate_node(SyntaxNode,input, index...index)
+                    r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
                   end
                   s0 << r13
                   if r13
-                    if has_terminal?('}', false, index)
-                      r15 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                      @index += 1
+                    r16 = _nt_space
+                    if r16
+                      r15 = r16
                     else
-                      terminal_parse_failure('}')
-                      r15 = nil
+                      r15 = instantiate_node(SyntaxNode,input, index...index)
                     end
                     s0 << r15
+                    if r15
+                      if has_terminal?('}', false, index)
+                        r17 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                        @index += 1
+                      else
+                        terminal_parse_failure('}')
+                        r17 = nil
+                      end
+                      s0 << r17
+                    end
                   end
                 end
               end
@@ -582,12 +632,24 @@ module Gift
   end
 
   module MutipleChoiceQuestion0
-    def question_text
+    def _comment
+      elements[0]
+    end
+
+    def _title
+      elements[1]
+    end
+
+    def _markup
       elements[3]
     end
 
+    def question_text
+      elements[4]
+    end
+
     def answer_list
-      elements[6]
+      elements[7]
     end
 
   end
@@ -628,71 +690,80 @@ module Gift
         end
         s0 << r5
         if r5
-          r7 = _nt_question_text
+          r8 = _nt_markup
+          if r8
+            r7 = r8
+          else
+            r7 = instantiate_node(SyntaxNode,input, index...index)
+          end
           s0 << r7
           if r7
-            if has_terminal?('{', false, index)
-              r8 = instantiate_node(SyntaxNode,input, index...(index + 1))
-              @index += 1
-            else
-              terminal_parse_failure('{')
-              r8 = nil
-            end
-            s0 << r8
-            if r8
-              r10 = _nt_space
-              if r10
-                r9 = r10
+            r9 = _nt_question_text
+            s0 << r9
+            if r9
+              if has_terminal?('{', false, index)
+                r10 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                @index += 1
               else
-                r9 = instantiate_node(SyntaxNode,input, index...index)
+                terminal_parse_failure('{')
+                r10 = nil
               end
-              s0 << r9
-              if r9
-                s11, i11 = [], index
-                loop do
-                  i12 = index
-                  r13 = _nt_wrong_answer
-                  if r13
-                    r12 = r13
-                  else
-                    r14 = _nt_right_answer
-                    if r14
-                      r12 = r14
-                    else
-                      @index = i12
-                      r12 = nil
-                    end
-                  end
-                  if r12
-                    s11 << r12
-                  else
-                    break
-                  end
-                end
-                if s11.empty?
-                  @index = i11
-                  r11 = nil
+              s0 << r10
+              if r10
+                r12 = _nt_space
+                if r12
+                  r11 = r12
                 else
-                  r11 = instantiate_node(SyntaxNode,input, i11...index, s11)
+                  r11 = instantiate_node(SyntaxNode,input, index...index)
                 end
                 s0 << r11
                 if r11
-                  r16 = _nt_space
-                  if r16
-                    r15 = r16
-                  else
-                    r15 = instantiate_node(SyntaxNode,input, index...index)
-                  end
-                  s0 << r15
-                  if r15
-                    if has_terminal?('}', false, index)
-                      r17 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                      @index += 1
+                  s13, i13 = [], index
+                  loop do
+                    i14 = index
+                    r15 = _nt_wrong_answer
+                    if r15
+                      r14 = r15
                     else
-                      terminal_parse_failure('}')
-                      r17 = nil
+                      r16 = _nt_right_answer
+                      if r16
+                        r14 = r16
+                      else
+                        @index = i14
+                        r14 = nil
+                      end
+                    end
+                    if r14
+                      s13 << r14
+                    else
+                      break
+                    end
+                  end
+                  if s13.empty?
+                    @index = i13
+                    r13 = nil
+                  else
+                    r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
+                  end
+                  s0 << r13
+                  if r13
+                    r18 = _nt_space
+                    if r18
+                      r17 = r18
+                    else
+                      r17 = instantiate_node(SyntaxNode,input, index...index)
                     end
                     s0 << r17
+                    if r17
+                      if has_terminal?('}', false, index)
+                        r19 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                        @index += 1
+                      else
+                        terminal_parse_failure('}')
+                        r19 = nil
+                      end
+                      s0 << r19
+                    end
                   end
                 end
               end
@@ -715,12 +786,24 @@ module Gift
   end
 
   module NumericQuestion0
-    def question_text
+    def _comment
+      elements[0]
+    end
+
+    def _title
+      elements[1]
+    end
+
+    def _markup
       elements[3]
     end
 
+    def question_text
+      elements[4]
+    end
+
     def answer_list
-      elements[6]
+      elements[7]
     end
 
   end
@@ -761,51 +844,60 @@ module Gift
         end
         s0 << r5
         if r5
-          r7 = _nt_question_text
+          r8 = _nt_markup
+          if r8
+            r7 = r8
+          else
+            r7 = instantiate_node(SyntaxNode,input, index...index)
+          end
           s0 << r7
           if r7
-            if has_terminal?('{#', false, index)
-              r8 = instantiate_node(SyntaxNode,input, index...(index + 2))
-              @index += 2
-            else
-              terminal_parse_failure('{#')
-              r8 = nil
-            end
-            s0 << r8
-            if r8
-              r10 = _nt_space
-              if r10
-                r9 = r10
+            r9 = _nt_question_text
+            s0 << r9
+            if r9
+              if has_terminal?('{#', false, index)
+                r10 = instantiate_node(SyntaxNode,input, index...(index + 2))
+                @index += 2
               else
-                r9 = instantiate_node(SyntaxNode,input, index...index)
+                terminal_parse_failure('{#')
+                r10 = nil
               end
-              s0 << r9
-              if r9
-                s11, i11 = [], index
-                loop do
-                  r12 = _nt_numeric_answer
-                  if r12
-                    s11 << r12
-                  else
-                    break
-                  end
-                end
-                if s11.empty?
-                  @index = i11
-                  r11 = nil
+              s0 << r10
+              if r10
+                r12 = _nt_space
+                if r12
+                  r11 = r12
                 else
-                  r11 = instantiate_node(SyntaxNode,input, i11...index, s11)
+                  r11 = instantiate_node(SyntaxNode,input, index...index)
                 end
                 s0 << r11
                 if r11
-                  if has_terminal?('}', false, index)
-                    r13 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                    @index += 1
-                  else
-                    terminal_parse_failure('}')
+                  s13, i13 = [], index
+                  loop do
+                    r14 = _nt_numeric_answer
+                    if r14
+                      s13 << r14
+                    else
+                      break
+                    end
+                  end
+                  if s13.empty?
+                    @index = i13
                     r13 = nil
+                  else
+                    r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
                   end
                   s0 << r13
+                  if r13
+                    if has_terminal?('}', false, index)
+                      r15 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                      @index += 1
+                    else
+                      terminal_parse_failure('}')
+                      r15 = nil
+                    end
+                    s0 << r15
+                  end
                 end
               end
             end
@@ -827,12 +919,24 @@ module Gift
   end
 
   module MatchQuestion0
-    def question_text
+    def _comment
+      elements[0]
+    end
+
+    def _title
+      elements[1]
+    end
+
+    def _markup
       elements[3]
     end
 
+    def question_text
+      elements[4]
+    end
+
     def answer_list
-      elements[6]
+      elements[7]
     end
 
   end
@@ -873,51 +977,60 @@ module Gift
         end
         s0 << r5
         if r5
-          r7 = _nt_question_text
+          r8 = _nt_markup
+          if r8
+            r7 = r8
+          else
+            r7 = instantiate_node(SyntaxNode,input, index...index)
+          end
           s0 << r7
           if r7
-            if has_terminal?('{', false, index)
-              r8 = instantiate_node(SyntaxNode,input, index...(index + 1))
-              @index += 1
-            else
-              terminal_parse_failure('{')
-              r8 = nil
-            end
-            s0 << r8
-            if r8
-              r10 = _nt_space
-              if r10
-                r9 = r10
+            r9 = _nt_question_text
+            s0 << r9
+            if r9
+              if has_terminal?('{', false, index)
+                r10 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                @index += 1
               else
-                r9 = instantiate_node(SyntaxNode,input, index...index)
+                terminal_parse_failure('{')
+                r10 = nil
               end
-              s0 << r9
-              if r9
-                s11, i11 = [], index
-                loop do
-                  r12 = _nt_match_answer
-                  if r12
-                    s11 << r12
-                  else
-                    break
-                  end
-                end
-                if s11.empty?
-                  @index = i11
-                  r11 = nil
+              s0 << r10
+              if r10
+                r12 = _nt_space
+                if r12
+                  r11 = r12
                 else
-                  r11 = instantiate_node(SyntaxNode,input, i11...index, s11)
+                  r11 = instantiate_node(SyntaxNode,input, index...index)
                 end
                 s0 << r11
                 if r11
-                  if has_terminal?('}', false, index)
-                    r13 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                    @index += 1
-                  else
-                    terminal_parse_failure('}')
+                  s13, i13 = [], index
+                  loop do
+                    r14 = _nt_match_answer
+                    if r14
+                      s13 << r14
+                    else
+                      break
+                    end
+                  end
+                  if s13.empty?
+                    @index = i13
                     r13 = nil
+                  else
+                    r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
                   end
                   s0 << r13
+                  if r13
+                    if has_terminal?('}', false, index)
+                      r15 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                      @index += 1
+                    else
+                      terminal_parse_failure('}')
+                      r15 = nil
+                    end
+                    s0 << r15
+                  end
                 end
               end
             end
@@ -945,14 +1058,29 @@ module Gift
   end
 
   module FillInQuestion2
-    def question_text
+    def _comment
+      elements[0]
+    end
+
+    def _title
+      elements[1]
+    end
+
+    def _markup
       elements[3]
     end
 
-    def answer_list
-      elements[6]
+    def question_text
+      elements[4]
     end
 
+    def answer_list
+      elements[7]
+    end
+
+    def _suffix
+      elements[10]
+    end
   end
 
   def _nt_fill_in_question
@@ -991,155 +1119,164 @@ module Gift
         end
         s0 << r5
         if r5
-          r7 = _nt_question_text
+          r8 = _nt_markup
+          if r8
+            r7 = r8
+          else
+            r7 = instantiate_node(SyntaxNode,input, index...index)
+          end
           s0 << r7
           if r7
-            if has_terminal?('{', false, index)
-              r8 = instantiate_node(SyntaxNode,input, index...(index + 1))
-              @index += 1
-            else
-              terminal_parse_failure('{')
-              r8 = nil
-            end
-            s0 << r8
-            if r8
-              r10 = _nt_space
-              if r10
-                r9 = r10
+            r9 = _nt_question_text
+            s0 << r9
+            if r9
+              if has_terminal?('{', false, index)
+                r10 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                @index += 1
               else
-                r9 = instantiate_node(SyntaxNode,input, index...index)
+                terminal_parse_failure('{')
+                r10 = nil
               end
-              s0 << r9
-              if r9
-                s11, i11 = [], index
-                loop do
-                  i12 = index
-                  r13 = _nt_wrong_answer
-                  if r13
-                    r12 = r13
-                  else
-                    r14 = _nt_right_answer
-                    if r14
-                      r12 = r14
-                    else
-                      @index = i12
-                      r12 = nil
-                    end
-                  end
-                  if r12
-                    s11 << r12
-                  else
-                    break
-                  end
-                end
-                if s11.empty?
-                  @index = i11
-                  r11 = nil
+              s0 << r10
+              if r10
+                r12 = _nt_space
+                if r12
+                  r11 = r12
                 else
-                  r11 = instantiate_node(SyntaxNode,input, i11...index, s11)
+                  r11 = instantiate_node(SyntaxNode,input, index...index)
                 end
                 s0 << r11
                 if r11
-                  r16 = _nt_space
-                  if r16
-                    r15 = r16
-                  else
-                    r15 = instantiate_node(SyntaxNode,input, index...index)
-                  end
-                  s0 << r15
-                  if r15
-                    if has_terminal?('}', false, index)
-                      r17 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                      @index += 1
+                  s13, i13 = [], index
+                  loop do
+                    i14 = index
+                    r15 = _nt_wrong_answer
+                    if r15
+                      r14 = r15
                     else
-                      terminal_parse_failure('}')
-                      r17 = nil
+                      r16 = _nt_right_answer
+                      if r16
+                        r14 = r16
+                      else
+                        @index = i14
+                        r14 = nil
+                      end
+                    end
+                    if r14
+                      s13 << r14
+                    else
+                      break
+                    end
+                  end
+                  if s13.empty?
+                    @index = i13
+                    r13 = nil
+                  else
+                    r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
+                  end
+                  s0 << r13
+                  if r13
+                    r18 = _nt_space
+                    if r18
+                      r17 = r18
+                    else
+                      r17 = instantiate_node(SyntaxNode,input, index...index)
                     end
                     s0 << r17
                     if r17
-                      s18, i18 = [], index
-                      loop do
-                        i19, s19 = index, []
-                        i20 = index
-                        if has_terminal?('\G[\\r\\n]', true, index)
-                          r21 = true
-                          @index += 1
-                        else
-                          r21 = nil
-                        end
-                        if r21
-                          r20 = nil
-                        else
-                          @index = i20
-                          r20 = instantiate_node(SyntaxNode,input, index...index)
-                        end
-                        s19 << r20
-                        if r20
+                      if has_terminal?('}', false, index)
+                        r19 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                        @index += 1
+                      else
+                        terminal_parse_failure('}')
+                        r19 = nil
+                      end
+                      s0 << r19
+                      if r19
+                        s20, i20 = [], index
+                        loop do
+                          i21, s21 = index, []
                           i22 = index
-                          i23, s23 = index, []
-                          if has_terminal?("\\", false, index)
-                            r24 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                          if has_terminal?('\G[\\r\\n]', true, index)
+                            r23 = true
                             @index += 1
                           else
-                            terminal_parse_failure("\\")
-                            r24 = nil
-                          end
-                          s23 << r24
-                          if r24
-                            if has_terminal?('\G[=~{}#:]', true, index)
-                              r25 = true
-                              @index += 1
-                            else
-                              r25 = nil
-                            end
-                            s23 << r25
-                          end
-                          if s23.last
-                            r23 = instantiate_node(SyntaxNode,input, i23...index, s23)
-                            r23.extend(FillInQuestion0)
-                          else
-                            @index = i23
                             r23 = nil
                           end
                           if r23
-                            r22 = r23
+                            r22 = nil
                           else
-                            if index < input_length
+                            @index = i22
+                            r22 = instantiate_node(SyntaxNode,input, index...index)
+                          end
+                          s21 << r22
+                          if r22
+                            i24 = index
+                            i25, s25 = index, []
+                            if has_terminal?("\\", false, index)
                               r26 = instantiate_node(SyntaxNode,input, index...(index + 1))
                               @index += 1
                             else
-                              terminal_parse_failure("any character")
+                              terminal_parse_failure("\\")
                               r26 = nil
                             end
+                            s25 << r26
                             if r26
-                              r22 = r26
-                            else
-                              @index = i22
-                              r22 = nil
+                              if has_terminal?('\G[=~{}#:]', true, index)
+                                r27 = true
+                                @index += 1
+                              else
+                                r27 = nil
+                              end
+                              s25 << r27
                             end
+                            if s25.last
+                              r25 = instantiate_node(SyntaxNode,input, i25...index, s25)
+                              r25.extend(FillInQuestion0)
+                            else
+                              @index = i25
+                              r25 = nil
+                            end
+                            if r25
+                              r24 = r25
+                            else
+                              if index < input_length
+                                r28 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                                @index += 1
+                              else
+                                terminal_parse_failure("any character")
+                                r28 = nil
+                              end
+                              if r28
+                                r24 = r28
+                              else
+                                @index = i24
+                                r24 = nil
+                              end
+                            end
+                            s21 << r24
                           end
-                          s19 << r22
+                          if s21.last
+                            r21 = instantiate_node(SyntaxNode,input, i21...index, s21)
+                            r21.extend(FillInQuestion1)
+                          else
+                            @index = i21
+                            r21 = nil
+                          end
+                          if r21
+                            s20 << r21
+                          else
+                            break
+                          end
                         end
-                        if s19.last
-                          r19 = instantiate_node(SyntaxNode,input, i19...index, s19)
-                          r19.extend(FillInQuestion1)
+                        if s20.empty?
+                          @index = i20
+                          r20 = nil
                         else
-                          @index = i19
-                          r19 = nil
+                          r20 = instantiate_node(SyntaxNode,input, i20...index, s20)
                         end
-                        if r19
-                          s18 << r19
-                        else
-                          break
-                        end
+                        s0 << r20
                       end
-                      if s18.empty?
-                        @index = i18
-                        r18 = nil
-                      else
-                        r18 = instantiate_node(SyntaxNode,input, i18...index, s18)
-                      end
-                      s0 << r18
                     end
                   end
                 end
@@ -1163,8 +1300,20 @@ module Gift
   end
 
   module DescriptionQuestion0
-    def question_text
+    def _comment
+      elements[0]
+    end
+
+    def _title
+      elements[1]
+    end
+
+    def _markup
       elements[3]
+    end
+
+    def question_text
+      elements[4]
     end
   end
 
@@ -1204,8 +1353,17 @@ module Gift
         end
         s0 << r5
         if r5
-          r7 = _nt_question_text
+          r8 = _nt_markup
+          if r8
+            r7 = r8
+          else
+            r7 = instantiate_node(SyntaxNode,input, index...index)
+          end
           s0 << r7
+          if r7
+            r9 = _nt_question_text
+            s0 << r9
+          end
         end
       end
     end

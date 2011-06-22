@@ -30,42 +30,42 @@ grammar Gift
   
 # Question Types
   rule essay_question
-    comment? title? space? markup:markup? question_text '{' nbsp? '}'
+    _comment:comment? _title:title? space? _markup:markup? question_text '{' nbsp? '}'
     <EssayQuestion>
   end
   
   rule true_false_question
-     comment? title? space? question_text '{' space? answer_list:(true_answer / false_answer) space? '}'  
+     _comment:comment? _title:title? space? _markup:markup? question_text '{' space? answer_list:(true_answer / false_answer) space? '}'  
       <TrueFalseQuestion>
   end
   
   rule short_answer_question
-    comment? title? space? question_text '{' space? answer_list:(right_answer)+ space? '}'
+    _comment:comment? _title:title? space? _markup:markup? question_text '{' space? answer_list:(right_answer)+ space? '}'
     <ShortAnswerQuestion>
   end
   
   rule mutiple_choice_question
-    comment? title? space? question_text '{' space? answer_list:(wrong_answer / right_answer)+ space? '}' 
+    _comment:comment? _title:title? space? _markup:markup? question_text '{' space? answer_list:(wrong_answer / right_answer)+ space? '}' 
     <MultipleChoiceQuestion>
   end
   
   rule numeric_question
-    comment? title? space? question_text '{#' space? answer_list:(numeric_answer)+ '}'
+    _comment:comment? _title:title? space? _markup:markup? question_text '{#' space? answer_list:(numeric_answer)+ '}'
     <NumericQuestion>
   end
   
   rule match_question
-    comment? title? space? question_text '{' space? answer_list:(match_answer)+ '}'
+    _comment:comment? _title:title? space? _markup:markup? question_text '{' space? answer_list:(match_answer)+ '}'
     <MatchQuestion>
   end
   
   rule fill_in_question
-    comment? title? space? question_text '{'  space? answer_list:(wrong_answer / right_answer)+ space?  '}' (![\r\n] (("\\" [=~{}#:])/ .))+
+    _comment:comment? _title:title? space? _markup:markup? question_text '{'  space? answer_list:(wrong_answer / right_answer)+ space?  '}' _suffix:(![\r\n] (("\\" [=~{}#:])/ .))+
     <FillInQuestion>
   end
   
   rule description_question
-    comment? title? space? question_text
+    _comment:comment? _title:title? space? _markup:markup? question_text
     <DescriptionQuestion>
   end
 
