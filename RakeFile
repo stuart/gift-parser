@@ -32,9 +32,10 @@ end
 
 task :clean do
   system( "rm -r #{File.expand_path("../doc/*", __FILE__)}")
+  system( "rmdir #{File.expand_path("../doc", __FILE__)}")
   system( "rm #{File.expand_path("../lib/gift_parser.rb", __FILE__)}")
 end
 
 task :doc do
-  system("rdoc --exclude *parser.rb")
+  system("rdoc --exclude #{File.expand_path("../lib/gift_parser.rb", __FILE__)}")
 end
