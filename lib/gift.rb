@@ -253,10 +253,12 @@ module Gift
     
   end
   
+  # Commands are simply parsed and stored for the 
+  # application to process as it needs.
+  #
   # Currently the only supported command is
-  #  CATEGORY:
-  # This assigns the question to a category.
-  # 
+  #  $CATEGORY: category
+  # This command assigns the question to a category.
   class Command  < Treetop::Runtime::SyntaxNode
     @@category = ""
     
