@@ -7,6 +7,8 @@ begin
     gemspec.email = "stuart.coyle@gmail.com"
     gemspec.homepage = "http://github.com/stuart/gift-parser"
     gemspec.authors = ["Stuart Coyle"]
+    gemspec.add_runtime_dependency "treetop", ">=1.4.5"
+    gemspec.add_development_dependency "treetop", ">=1.4.5"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
