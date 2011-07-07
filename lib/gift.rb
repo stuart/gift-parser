@@ -28,6 +28,7 @@ module Gift
     end
     
   end
+  
   # A representation of the questions in the gift format.
   # The GIFT format is described in http://docs.moodle.org/en/GIFT
   #
@@ -69,7 +70,7 @@ module Gift
     
     
     # Returns the percentage value of the answer. 
-    # Defaults to 100% if correct or 50% if wrong.
+    # Defaults to 100% if correct or 0% if wrong.
     # Subclasses are expected to implement their own version of this function.
     def mark_answer(response)
       correct_answers.include?(response) ? 100 : 0
