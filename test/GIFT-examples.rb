@@ -12,7 +12,7 @@ examples[:description] = <<EOS
 //  by Paul Tsuchido Shew, January 2004.
 
 //-----------------------------------------//
-//        EXAMPLES FROM DESCRIPTION
+//        EXAMPLES FROM DOCUMENTATION
 //-----------------------------------------//
 
 Who's buried in Grant's tomb?{~Grant ~Jefferson =no one}

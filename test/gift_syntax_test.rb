@@ -141,7 +141,6 @@ EOS
   def test_escape_left_bracket
     assert_can_parse('Can a \{ be escaped?{=Yes ~No}')
     assert_can_parse('Can a \{ be escaped?{=Yes ~No\{ }')
-    
   end
   
   def test_escape_right_bracket
@@ -236,6 +235,10 @@ EOS
 
   def test_can_have_commands
     assert_can_parse("$COMMAND=1\n\nQuestion text{}")
+  end
+  
+  def test_can_have_100_percent
+    assert_can_parse( "What are your four favorite colors?{=%100%Blue =%25% Red}")
   end
 end
 

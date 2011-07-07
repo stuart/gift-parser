@@ -7,6 +7,8 @@ begin
     gemspec.email = "stuart.coyle@gmail.com"
     gemspec.homepage = "http://github.com/stuart/gift-parser"
     gemspec.authors = ["Stuart Coyle"]
+    gemspec.add_runtime_dependency "treetop", ">=1.4.5"
+    gemspec.add_development_dependency "treetop", ">=1.4.5"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -25,15 +27,17 @@ end
 task :treetop do 
   # Generate the parser from the treetop source
   print "Generating the parser..."
-  system("tt #{File.expand_path("../src/gift_parser.treetop", __FILE__)}" ) 
+  system("tt #{File.expand_path('../src/gift_parser.treetop', __FILE__)}" )
+  system("mv #{File.expand_path('../src/gift_parser.rb',__FILE__)} #{File.expand_path('../lib/gift_parser.rb',__FILE__)}" )
   puts "done."
 end
 
 task :clean do
   system( "rm -r #{File.expand_path("../doc/*", __FILE__)}")
-  system( "rm #{File.expand_path("../gift_parser.rb", __FILE__)}")
+  system( "rmdir #{File.expand_path("../doc", __FILE__)}")
+  system( "rm #{File.expand_path("../lib/gift_parser.rb", __FILE__)}")
 end
 
 task :doc do
-  system("rdoc --exclude *parser.rb")
+  system("rdoc --exclude #{File.expand_path("../lib/gift_parser.rb", __FILE__)}")
 end

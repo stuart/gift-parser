@@ -32,7 +32,8 @@ module Gift
   # A representation of the questions in the gift format.
   # The GIFT format is described in http://docs.moodle.org/en/GIFT
   #
-  # This is an abstract class representing question types.
+  # This is an abstract class representing question types. 
+  # Correctly constructed questions will be one of the sub-types.
   class Question < Treetop::Runtime::SyntaxNode 
     
     attr_accessor :category
@@ -55,17 +56,24 @@ module Gift
     
     # The question title, defaults to the question text if no title is given.
     def title
-      t = elements[1].text_value.gsub("::", "")
+      t = _title.text_value.gsub("::", "")
       t.blank? ? self.text : t
     end
      
     # Any comment text before the question.
+    # An example of a comment:
+    #   //This is a comment
+    #   What is the value of pi (to 3 decimal places)? {3.141..3.142}
+    #
     def comment
-      elements[0].text_value.gsub("//", "").rstrip
+      _comment.text_value.gsub("//", "").rstrip
     end
     
-    def markup
-      question_text.markup.text_value.gsub(/[\[\]]/, '')
+    # The markup language that the question text is encoded in.
+    # This library does not do any of the markup translation,
+    # programs can use this info to translate as needed.
+    def markup_language
+      _markup.text_value.gsub(/[\[\]]/, '')
     end
     
     
@@ -84,7 +92,7 @@ module Gift
   
   # A question with no set answer. Used for requestion an essay.
   # Gift example:
-  #     <tt>Write 2000 words on parser generators{}</tt>
+  #     Write 2000 words on parser generators{}
   # 
   # Answer format: none.
   class EssayQuestion < Question
@@ -93,7 +101,7 @@ module Gift
   
   # Purely a description or informative phrase.
   # Gift example:
-  #      <tt>This is a description only</tt>
+  #      This is a description only
   #
   # Answer format: none
   class DescriptionQuestion < Question
@@ -102,12 +110,12 @@ module Gift
 
   # A question with a true or false boolean answer
   # Gift examples:
-  #    <tt>Is the sky blue?{T}</tt>
-  #    <tt>Is the sky up?{TRUE}</tt>
-  #    <tt>Is the sea made of stone?{FALSE#It's made of water.}</tt>
+  #    Is the sky blue?{T}
+  #    Is the sky up?{TRUE}
+  #    Is the sea made of stone?{FALSE#It's made of water.}
   #
   # Answer format: 
-  #  <tt>[{:value => true, :correct => true, :feedback => "Feedback string"}]  </tt>
+  #  [{:value => true, :correct => true, :feedback => "Feedback string"}]  
   #
   class TrueFalseQuestion < Question   
     
@@ -123,7 +131,7 @@ module Gift
   # A question with multiple choices avaialble
   # Each choice may be given a weight and feedback string.
   # Gift examples:
-  #   <tt>// question: 1 name: Grants tomb
+  #   // question: 1 name: Grants tomb
   #   ::Grants tomb::Who is buried in Grant's tomb in New York City? {
   #   =Grant
   #   ~No one
@@ -134,11 +142,11 @@ module Gift
   #   #He was buried in England
   #   ~Mother Teresa
   #   #She was buried in India
-  #   }</tt>
+  #   }
   # 
   # Answer format: 
-  # <tt>[{:value => "Grant", :correct=> true, :feedback=> nil}, 
-  #      {:value => "No one", :correct => false, :feedback => "Was true for 12 years, but Grant's remains were buried in the tomb in 1897"}] </tt>                         
+  #     [{:value => "Grant", :correct=> true, :feedback=> nil}, 
+  #      {:value => "No one", :correct => false, :feedback => "Was true for 12 years, but Grant's remains were buried in the tomb in 1897"}]                          
   class MultipleChoiceQuestion < Question
     
     def answers
@@ -153,15 +161,15 @@ module Gift
   # An extension in this implementation is the ability to have weights to the short answers
   # If all the answers have weights then it's treated as a multiple short answer question.
   # Multiple short answer questions require several of the answers adding up to 100% to be present.
-  # For example: <tt>Name the three priamry colors{=%33.3%red =%33.3%blue =%33.3%yellow}</tt>
+  # For example: Name the three priamry colors{=%33.3%red =%33.3%blue =%33.3%yellow}
   #
   # Gift Example:
-  # <tt>Who's buried in Grant's tomb?{=Grant =Ulysses S. Grant =Ulysses Grant} </tt>
+  #   Who's buried in Grant's tomb?{=Grant =Ulysses S. Grant =Ulysses Grant} 
   # 
   # Answer format: 
-  # <tt>[{:feedback => nil, :value => "Grant", :correct => true}, 
+  #     [{:feedback => nil, :value => "Grant", :correct => true}, 
   #     {:feedback => nil, :value => "Ulysses S. Grant", :correct => true}, 
-  #     {:feedback => nil, :value => "Ulysses Grant" , :correct => true}] </tt>
+  #     {:feedback => nil, :value => "Ulysses Grant" , :correct => true}] 
   #
   class ShortAnswerQuestion < Question 
     
@@ -174,15 +182,15 @@ module Gift
   # Can have a tolerance or range or multiple answers with weights.
   #
   # Gift Examples:
-  # <tt>When was Ulysses S. Grant born? {#
+  #   When was Ulysses S. Grant born? {#
   #    =1822:0
   #    =%50%1822:2
-  # }</tt>
+  #   }
   #
-  # What is the value of pi (to 3 decimal places)? {#3.141..3.142}
+  #   What is the value of pi (to 3 decimal places)? {#3.141..3.142}
   #
   # Answer format:
-  # [{:minimum => "1822", :maximum => "1822"}]
+  #   [{:minimum => "1822", :maximum => "1822"}]
   # 
   class NumericQuestion < Question
     
@@ -194,15 +202,15 @@ module Gift
   # A questions where items have to be matched up one to one.
   # 
   # Gift Example: 
-  #  <tt>Match the following countries with their corresponding capitals. {
+  #   Match the following countries with their corresponding capitals. {
   #     =Canada -> Ottawa
   #     =Italy  -> Rome
   #     =Japan  -> Tokyo
   #     =India  -> New Delhi
-  #     }  </tt>
+  #     }
   #
   # Answer format: 
-  # {'Canada' => 'Ottowa','Italy' => 'Rome'}</tt>
+  #   {'Canada' => 'Ottowa','Italy' => 'Rome'}
   #              
   class MatchQuestion < Question
      def answers
@@ -221,27 +229,37 @@ module Gift
   # The question text will have %% in it where the answer is to be placed.
   #
   # Gift example: 
-  # <tt>The American holiday of Thanksgiving is celebrated on the {
+  #   The American holiday of Thanksgiving is celebrated on the {
   #    ~second
   #    ~third
   #    =fourth
-  # } Thursday of November.</tt>
+  #   } Thursday of November.
   #
-  # text: <tt>"The American holiday of Thanksgiving is celebrated on the %% Thursday of November"</tt>
+  # text: 
+  #  "The American holiday of Thanksgiving is celebrated on the %% Thursday of November"
   #   
   # Answer format: 
-  # <tt>[{:value => 'second', :correct => false}, {:value => 'third', :correct => false}, {:value => 'fourth', :correct => true}]
+  #   [{:value => 'second', :correct => false}, {:value => 'third', :correct => false}, {:value => 'fourth', :correct => true}]
   #
   class FillInQuestion < Question
+    # The question text will have the blank to be filled in represented with %%
+    # In application this will probably be replaced with a text field or select control.
     def text
-      question_text.text_value + "%%" + elements[9].text_value
+      question_text.text_value + "%%" + _suffix.text_value
     end
     
     def answers
       answer_list.elements.map{|e| e.answer}
     end
+    
   end
   
+  # Commands are simply parsed and stored for the 
+  # application to process as it needs.
+  #
+  # Currently the only supported command is
+  #  $CATEGORY: category
+  # This command assigns the question to a category.
   class Command  < Treetop::Runtime::SyntaxNode
     @@category = ""
     
